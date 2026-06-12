@@ -26,8 +26,10 @@ logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DB_PATH = BASE_DIR / "data" / "db" / "drug_prices.db"
-INBOX_DIR = BASE_DIR / "data" / "hira_pipeline" / "보고서" / "inbox"
-ARCHIVE_DIR = BASE_DIR / "data" / "hira_pipeline" / "보고서" / "archive"
+REPORTS_DIR = BASE_DIR / "data" / "hira_pipeline" / "보고서"
+INBOX_DIR = REPORTS_DIR / "inbox"
+ARCHIVE_DIR = REPORTS_DIR / "archive"
+REPORTS_MANIFEST_PATH = REPORTS_DIR / "reports_manifest.json"
 
 ANALYSIS_MODEL = "gpt-4o-mini"
 MAX_TEXT_CHARS = 16000
@@ -323,6 +325,60 @@ def reanalyze(report_id: int) -> dict:
         )
         conn.commit()
     return {"status": "reanalyzed", "id": report_id, "title": analysis.get("title")}
+
+
+def _report_manifest_entry(path: Path) -> dict:
+    """Repo에 포함된 HIRA PDF 보고서 1건의 manifest entry."""
+    rel = path.relative_to(BASE_DIR)
+    file_hash = _sha1(path)
+    hints = _filename_hints(path.name)
+    text, pages = _extract_pdf_text(path)
+    title = path.stem
+    if text.strip():
+        for line in text.splitlines():
+            clean = re.sub(r"\s+", " ", line).strip()
+            if clean:
+                title = clean[:160]
+                break
+    return {
+        "file_name": path.name,
+        "path": str(rel),
+        "sha1": file_hash,
+        "file_size": path.stat().st_size,
+        "pages": pages,
+        "title": title,
+        "committee": hints.get("committee"),
+        "report_type": hints.get("report_type"),
+        "year": hints.get("year"),
+        "cycle": hints.get("cycle"),
+        "session_date": hints.get("session_date"),
+    }
+
+
+def build_reports_manifest(path: Path = REPORTS_MANIFEST_PATH) -> dict:
+    """Repo PDF 보고서 manifest를 재생성한다.
+
+    배포 환경은 DB/볼륨 상태와 무관하게 git에 포함된 PDF 목록을 확인할 수
+    있어야 하므로, HIRA 리포트 PDF를 deterministic JSON으로 색인한다.
+    inbox의 임시 업로드 파일은 제외하고 D-2/D+1/monthly/archive PDF만 포함한다.
+    """
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    pdfs = []
+    for pdf in sorted(REPORTS_DIR.rglob("*.pdf"), key=lambda p: str(p)):
+        rel_parts = pdf.relative_to(REPORTS_DIR).parts
+        if rel_parts and rel_parts[0] == "inbox":
+            continue
+        pdfs.append(_report_manifest_entry(pdf))
+    payload = {
+        "schema_version": 1,
+        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "reports_root": str(REPORTS_DIR.relative_to(BASE_DIR)),
+        "report_count": len(pdfs),
+        "reports": pdfs,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return payload
 
 
 def list_reports() -> list[dict]:

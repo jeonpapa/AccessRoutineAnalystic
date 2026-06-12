@@ -55,8 +55,18 @@
 - 멱등 UPSERT (brand_kr + ingredient_inn). 큐 이벤트 중복 자동 방지.
 - 신규 차수는 `missing_sessions` 에 먼저 추가해야 그 차수 이벤트가 링크됨 (없으면 해당 이벤트만 skip).
 
+## 보고서 manifest
+
+repo에 포함된 HIRA 리포트 PDF는 `data/hira_pipeline/보고서/reports_manifest.json` 으로 색인한다.
+배포 앱/대시보드는 DB seed 여부와 무관하게 이 manifest를 읽어 git에 포함된 PDF 목록을 확인할 수 있다.
+
+- 생성 함수: `agents.reimb_reports.build_reports_manifest()`
+- 포함 대상: `data/hira_pipeline/보고서/**/*.pdf` 중 `inbox/` 제외
+- 주요 필드: `path`, `sha1`, `file_size`, `pages`, `committee`, `report_type`, `year`, `cycle`, `session_date`
+
 ## 수동 도구
 
 - 누락 점검: `python -m agents.scrapers.hira_press 12` (지난 12개월 HIRA 게시물 ↔ DB 대조).
 - JSON 재생성(파이썬 authoring → JSON): `python -m agents.ingest.reimb_committee_import export`.
+- 리포트 manifest 재생성: `python -c "from agents.reimb_reports import build_reports_manifest; build_reports_manifest()"`.
 - 즉시 sync: `python scheduler.py --amjilsim-daily-crawl-now`.
