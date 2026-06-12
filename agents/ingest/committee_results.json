@@ -31,7 +31,7 @@
       7,
       "2025-07-10",
       "YAKPYUNGWI",
-      "HIRA 5034계열 brdBltNo=11531 — 7차 약평위 (씨트렐린·빌베이)"
+      "HIRA brdBltNo=11531 — 7차 약평위 (씨트렐린·빌베이)"
     ],
     [
       2025,
@@ -86,7 +86,7 @@
     [
       "2026-06-04",
       "COMPLETED",
-      "6차 약평위 — 5개 의약품·9개 적응증 전체 통과 (HIRA 보도자료 5034: 지텍 조건부·빌로이·핀테플라·리브리반트 재상정 통과·테빔브라 RSA 확대 5적응증)."
+      "6차 약평위 — 5개 의약품·9개 적응증 전체 통과 (HIRA brdBltNo=11814: 지텍 조건부·빌로이·핀테플라·리브리반트 재상정 통과·테빔브라 RSA 확대 5적응증)."
     ]
   ],
   "expected_next_session": {
@@ -120,7 +120,7 @@
     ],
     "버제니오정": [
       "5/27 5차 암질심 통과 (HR+/HER2- 조기 유방암 보조요법) — 동일 차수 키스칼리는 미설정: 'OS 데이터 성숙도' 가 희비 가름",
-      "6/4 6차 약평위 미진입 — 7/2 7차 상정 후보 (HIRA 5034 공식 기록)"
+      "6/4 6차 약평위 미진입 — 7/2 7차 상정 후보 (HIRA brdBltNo=11814 공식 기록)"
     ],
     "엘라히어주": [
       "5/27 암질심 통과 — 정부 D-14 시점 명시적 약물 거명 → 통과 강한 상관 (PR-001 fast-track 신호)",
@@ -1052,7 +1052,7 @@
       "negotiation_status": "IN_PROGRESS",
       "indication": "EGFR 엑손20 삽입 변이 NSCLC — 백금기반 화학요법 중/이후 진행, 성인 단독요법(2차 이상)",
       "listing_type": "신규",
-      "notes": "6차 약평위(2026-06-04) 재상정 통과 — 급여 적정성 있음 (HIRA 5034). 7차 암질심(2025-09-03 brdBltNo=11576): 단독요법(적응증2) 급여기준 설정, 병용 3종 미설정. 5차 약평위(5/7) 재심의 → 6차 재상정 통과. NHIS 협상 단계 진입 (2026 하반기 예상).",
+      "notes": "6차 약평위(2026-06-04) 재상정 통과 — 급여 적정성 있음 (HIRA brdBltNo=11814). 7차 암질심(2025-09-03 brdBltNo=11576): 단독요법(적응증2) 급여기준 설정, 병용 3종 미설정. 5차 약평위(5/7) 재심의 → 6차 재상정 통과. NHIS 협상 단계 진입 (2026 하반기 예상).",
       "events": [
         {
           "committee": "AMJILSIM",
@@ -1073,7 +1073,7 @@
           "state": "APPROVED",
           "session_date": "2026-06-04",
           "n_th_attempt": 2,
-          "evidence_url": "HIRA 보도자료 5034 (6차 약평위 통과)"
+          "evidence_url": "HIRA brdBltNo=11814 (6차 약평위 통과)"
         }
       ]
     },
@@ -1088,7 +1088,7 @@
       "negotiation_status": "IN_PROGRESS",
       "indication": "PD-1 — ①식도편평세포암 1차 병용(올커머) ②위/위식도접합부 선암 1차 병용 ③비편평 NSCLC 1차 병용(PD-L1≥50%) ④편평 NSCLC 1차 병용 ⑤NSCLC 2차 단독 (5개 적응증)",
       "listing_type": "확대",
-      "notes": "9차 암질심(2025-12-10 brdBltNo=11684) 5개 적응증 급여기준 설정 → 6차 약평위(2026-06-04 HIRA 5034) 급여범위 확대 적정성 있음 (위험분담 확대 트랙). 키트루다 등 PD-1 클래스 가격압박 baseline 변화 시그널 (MSD 직접 영향 ⭐⭐).",
+      "notes": "9차 암질심(2025-12-10 brdBltNo=11684) 5개 적응증 급여기준 설정 → 6차 약평위(2026-06-04 HIRA brdBltNo=11814) 급여범위 확대 적정성 있음 (위험분담 확대 트랙). 키트루다 등 PD-1 클래스 가격압박 baseline 변화 시그널 (MSD 직접 영향 ⭐⭐).",
       "events": [
         {
           "committee": "AMJILSIM",
@@ -1102,7 +1102,7 @@
           "state": "APPROVED",
           "session_date": "2026-06-04",
           "n_th_attempt": 1,
-          "evidence_url": "HIRA 보도자료 5034 (6차 약평위 RSA 확대 통과)"
+          "evidence_url": "HIRA brdBltNo=11814 (6차 약평위 RSA 확대 통과)"
         }
       ]
     },
@@ -1117,7 +1117,7 @@
       "negotiation_status": "IN_PROGRESS",
       "indication": "CLDN18.2 양성·HER2 음성 절제불가 국소진행성/전이성 위선암·위식도접합부 선암 1차 (플루오로피리미딘계·백금기반 화학요법 병용)",
       "listing_type": "신규",
-      "notes": "8차 암질심(2025-10-29 brdBltNo=11643) 급여기준 설정 → 6차 약평위(2026-06-04 HIRA 5034) 통과. 5/22 경제성평가소위 통과 → 6/4 약평위 (소위→약평위 fast 패턴).",
+      "notes": "8차 암질심(2025-10-29 brdBltNo=11643) 급여기준 설정 → 6차 약평위(2026-06-04 HIRA brdBltNo=11814) 통과. 5/22 경제성평가소위 통과 → 6/4 약평위 (소위→약평위 fast 패턴).",
       "events": [
         {
           "committee": "AMJILSIM",
@@ -1131,7 +1131,7 @@
           "state": "APPROVED",
           "session_date": "2026-06-04",
           "n_th_attempt": 1,
-          "evidence_url": "HIRA 보도자료 5034 (6차 약평위 통과)"
+          "evidence_url": "HIRA brdBltNo=11814 (6차 약평위 통과)"
         }
       ]
     },
@@ -1300,14 +1300,14 @@
       "negotiation_status": "IN_PROGRESS",
       "indication": "2세 이상 드라벳증후군 환자 발작 치료 부가요법 (희귀질환)",
       "listing_type": "신규",
-      "notes": "6차 약평위(2026-06-04) 통과 — 급여 적정성 있음 (HIRA 5034). 희귀질환 별도 협상 트랙 가능.",
+      "notes": "6차 약평위(2026-06-04) 통과 — 급여 적정성 있음 (HIRA brdBltNo=11814). 희귀질환 별도 협상 트랙 가능.",
       "events": [
         {
           "committee": "YAKPYUNGWI",
           "state": "APPROVED",
           "session_date": "2026-06-04",
           "n_th_attempt": 1,
-          "evidence_url": "HIRA 보도자료 5034 (6차 약평위 통과)"
+          "evidence_url": "HIRA brdBltNo=11814 (6차 약평위 통과)"
         }
       ]
     },
@@ -1322,14 +1322,14 @@
       "negotiation_status": "IN_PROGRESS",
       "indication": "급성·만성 위염 위점막 병변 개선 (천연물의약품)",
       "listing_type": "신규",
-      "notes": "6차 약평위(2026-06-04) 조건부 통과 — 평가가격 이하 수용 시 (HIRA 5034). 종근당 첫 천연물의약품 급여.",
+      "notes": "6차 약평위(2026-06-04) 조건부 통과 — 평가가격 이하 수용 시 (HIRA brdBltNo=11814). 종근당 첫 천연물의약품 급여.",
       "events": [
         {
           "committee": "YAKPYUNGWI",
           "state": "APPROVED",
           "session_date": "2026-06-04",
           "n_th_attempt": 1,
-          "evidence_url": "HIRA 보도자료 5034 (6차 약평위 조건부 통과)"
+          "evidence_url": "HIRA brdBltNo=11814 (6차 약평위 조건부 통과)"
         }
       ]
     },
