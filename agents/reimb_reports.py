@@ -18,6 +18,7 @@ import os
 import re
 import shutil
 import sqlite3
+from urllib.parse import quote
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -29,7 +30,7 @@ DB_PATH = BASE_DIR / "data" / "db" / "drug_prices.db"
 REPORTS_DIR = BASE_DIR / "data" / "hira_pipeline" / "보고서"
 INBOX_DIR = REPORTS_DIR / "inbox"
 ARCHIVE_DIR = REPORTS_DIR / "archive"
-REPORTS_MANIFEST_PATH = REPORTS_DIR / "reports_manifest.json"
+REPORTS_MANIFEST_PATH = BASE_DIR / "agents" / "ingest" / "reports_manifest.json"
 
 ANALYSIS_MODEL = "gpt-4o-mini"
 MAX_TEXT_CHARS = 16000
@@ -327,55 +328,79 @@ def reanalyze(report_id: int) -> dict:
     return {"status": "reanalyzed", "id": report_id, "title": analysis.get("title")}
 
 
-def _report_manifest_entry(path: Path) -> dict:
-    """Repo에 포함된 HIRA PDF 보고서 1건의 manifest entry."""
-    rel = path.relative_to(BASE_DIR)
-    file_hash = _sha1(path)
-    hints = _filename_hints(path.name)
-    text, pages = _extract_pdf_text(path)
-    title = path.stem
-    if text.strip():
-        for line in text.splitlines():
-            clean = re.sub(r"\s+", " ", line).strip()
-            if clean:
-                title = clean[:160]
-                break
-    return {
-        "file_name": path.name,
-        "path": str(rel),
-        "sha1": file_hash,
-        "file_size": path.stat().st_size,
-        "pages": pages,
-        "title": title,
-        "committee": hints.get("committee"),
-        "report_type": hints.get("report_type"),
-        "year": hints.get("year"),
-        "cycle": hints.get("cycle"),
-        "session_date": hints.get("session_date"),
-    }
+def _raw_github_url(repo_path: str) -> str:
+    """Return GitHub raw URL for a repo-relative path, URL-encoding Korean path segments."""
+    encoded = "/".join(quote(part) for part in Path(repo_path).parts)
+    return f"https://raw.githubusercontent.com/jeonpapa/AccessRoutineAnalystic/main/{encoded}"
 
 
-def build_reports_manifest(path: Path = REPORTS_MANIFEST_PATH) -> dict:
-    """Repo PDF 보고서 manifest를 재생성한다.
+def _default_report_title(hints: dict, stem: str) -> str:
+    committee = "약제급여평가위원회" if hints.get("committee") == "evaluation" else "중증(암)질환심의위원회" if hints.get("committee") == "cancer" else "위원회"
+    report_type = {"pre": "사전 검토 보고", "post": "결과 리뷰 보고", "monthly": "월간 트렌드 보고"}.get(hints.get("report_type"), "보고")
+    year = hints.get("year")
+    cycle = hints.get("cycle")
+    if year and cycle:
+        return f"{year}년 {cycle}차 {committee} {report_type}"
+    return stem
 
-    배포 환경은 DB/볼륨 상태와 무관하게 git에 포함된 PDF 목록을 확인할 수
-    있어야 하므로, HIRA 리포트 PDF를 deterministic JSON으로 색인한다.
-    inbox의 임시 업로드 파일은 제외하고 D-2/D+1/monthly/archive PDF만 포함한다.
+
+def _report_manifest_entry(item: dict | str | Path) -> dict:
+    """Repo에 포함된 HIRA PDF 보고서 1건의 app-sync manifest entry.
+
+    item may be a repo_path string/Path or a metadata dict with repo_path plus
+    committee/report_type/year/cycle/session_date/title overrides.
     """
+    if isinstance(item, dict):
+        if not item.get("repo_path"):
+            raise ValueError("reports_manifest item requires repo_path")
+        repo_path = str(item["repo_path"])
+        meta = item
+    else:
+        repo_path = str(Path(item).relative_to(BASE_DIR) if Path(item).is_absolute() else item)
+        meta = {}
+    path = BASE_DIR / repo_path
+    if not path.exists() or path.suffix.lower() != ".pdf":
+        raise FileNotFoundError(f"PDF report not found: {repo_path}")
+    hints = _filename_hints(path.name)
+    entry = {
+        "file_name": path.name,
+        "file_hash": _sha1(path),
+        "url": _raw_github_url(repo_path),
+        "committee": meta.get("committee", hints.get("committee")),
+        "report_type": meta.get("report_type", hints.get("report_type")),
+        "year": meta.get("year", hints.get("year")),
+        "cycle": meta.get("cycle", hints.get("cycle")),
+        "session_date": meta.get("session_date", hints.get("session_date")),
+        "title": meta.get("title") or _default_report_title(hints, path.stem),
+    }
+    return entry
+
+
+def _discover_report_items() -> list[dict]:
+    """Discover curated repo PDF reports. inbox/ is staging and excluded."""
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    pdfs = []
+    items: list[dict] = []
     for pdf in sorted(REPORTS_DIR.rglob("*.pdf"), key=lambda p: str(p)):
         rel_parts = pdf.relative_to(REPORTS_DIR).parts
         if rel_parts and rel_parts[0] == "inbox":
             continue
-        pdfs.append(_report_manifest_entry(pdf))
-    payload = {
-        "schema_version": 1,
-        "generated_at": datetime.now().isoformat(timespec="seconds"),
-        "reports_root": str(REPORTS_DIR.relative_to(BASE_DIR)),
-        "report_count": len(pdfs),
-        "reports": pdfs,
-    }
+        items.append({"repo_path": str(pdf.relative_to(BASE_DIR))})
+    return items
+
+
+def build_reports_manifest(reports: list[dict | str | Path] | None = None,
+                           path: Path = REPORTS_MANIFEST_PATH) -> dict:
+    """Regenerate agents/ingest/reports_manifest.json for git-raw report sync.
+
+    Pass an explicit reports list to keep canonical one-report-per-session entries.
+    If omitted, curated PDFs under data/hira_pipeline/보고서/ are discovered and
+    included, excluding inbox/ staging files. Existing manifest contents are not
+    merged implicitly: the manifest is regenerated from the supplied/discovered list.
+    """
+    entries = [_report_manifest_entry(item) for item in (reports or _discover_report_items())]
+    # Deterministic order for stable diffs.
+    entries.sort(key=lambda r: (r.get("session_date") or "", r.get("committee") or "", r.get("report_type") or "", r.get("file_name") or ""))
+    payload = {"schema_version": 1, "reports": entries}
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return payload
