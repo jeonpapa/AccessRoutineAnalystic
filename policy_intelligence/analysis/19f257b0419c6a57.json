@@ -1,0 +1,55 @@
+{
+  "schema": "policy_analysis/v1",
+  "event_id": "19f257b0419c6a57",
+  "content_fingerprint": "43ef4109b9daf0f6aae58653c59c0e63899a273b8293d03a5984fd7a31cb25f4",
+  "criteria_version": "1.0",
+  "analyst": "hermes",
+  "model": "gpt-5.5",
+  "analyzed_at": "2026-07-03T01:00:58Z",
+  "topic": "기타",
+  "summary": "KRPIA Market Access 채널을 통해 심평원 「2025 급여의약품 청구 현황」 PDF가 공유된 정보성 이벤트이다. 자료는 2025년 급여의약품 청구금액, 연령·ATC 분류별 추이, 입원/외래 청구 구조를 제공하며, 직접적인 정부 의견조회나 회신 마감 요청은 확인되지 않는다. MSD 관점에서는 즉시 대응 과제보다는 향후 약가·급여 정책 논의 및 impact assessment에서 청구 규모·고령화·항종양/면역조절제 지출 근거로 활용할 수 있는 배경 데이터이다.",
+  "severity": "low",
+  "status": "정보",
+  "msd_implication": {
+    "rationale": "직접적인 MSD 품목 조치나 회신 요청은 없으나, 건강보험 급여의약품 청구금액 증가와 65세 이상 비중 확대, 항종양제 및 면역조절제 증가율은 향후 payer 관점의 약품비 관리·고가약/항암제 정책 논의에서 배경 근거로 활용될 수 있다. 특정 MSD 제품의 급여·약가 영향은 이 자료만으로 단정하지 않는다.",
+    "next_action": "자료를 Policy Intelligence 레퍼런스 이벤트로 보관하고, 향후 KRPIA TF/복지부·심평원 의견조회에서 약품비 추이, 고령층 비중, ATC L군 관련 근거가 필요할 때 원문 PDF를 인용한다. 별도 impact assessment는 특정 정책안 또는 제품군 연결 근거가 추가될 때 착수한다."
+  },
+  "evidence_quotes": [
+    {
+      "quote": "건강보험심사평가원에서 우리나라 급여 대상 의약품의 사용현황 통계를 「2025 급여의약품 청구 현황」 책자로 제작하였습니다.",
+      "source": "body",
+      "loc": "KRPIA 전달 메일 본문"
+    },
+    {
+      "quote": "해당 책자 soft copy PDF 파일 첨부하여 전달 드립니다.",
+      "source": "body",
+      "loc": "KRPIA 전달 메일 본문"
+    },
+    {
+      "quote": "’25년 건강보험 급여의약품 청구금액 28조 2,653억원 \n’24년 26조 9,897억원 대비 4.7% 증가",
+      "source": "2025 급여의약품 청구 현황.pdf",
+      "loc": "p.22"
+    },
+    {
+      "quote": "항종양제 및 면역\n조절제(L) (8.8%) 순으로 높게 나타남",
+      "source": "2025 급여의약품 청구 현황.pdf",
+      "loc": "p.24"
+    },
+    {
+      "quote": "’25년 65세 이상 급여의약품 청구금액 13조 6,136억원(전체의 48.2%) \n’24년 12조 5,832억원 대비 8.2% 증가",
+      "source": "2025 급여의약품 청구 현황.pdf",
+      "loc": "p.25"
+    }
+  ],
+  "kr_rules_cited": [],
+  "data_gaps": [
+    "이 메일/첨부만으로는 MSD 특정 제품별 청구액·가격·급여기준 영향이 확인되지 않음",
+    "정부 의견조회·회신 마감·KRPIA TF action item은 본문에서 확인되지 않음",
+    "new_topic_candidate: 심평원 급여의약품 청구통계/시장규모 레퍼런스"
+  ],
+  "confidence": "high",
+  "review": {
+    "gate": "none",
+    "consensus": null
+  }
+}
