@@ -47,6 +47,7 @@ MISSING_SESSIONS = [
     (2025, 7, 7, "2025-09-03", "AMJILSIM", "HIRA brdBltNo=11576 — 7차 암질심 (레테브모·리브리반트 단독 설정·린파자 확대)"),
     (2025, 8, 8, "2025-10-29", "AMJILSIM", "HIRA brdBltNo=11643 — 8차 암질심 (텍베일리·엘렉스피오·파드셉·빌로이·옵디보 식도암)"),
     (2025, 9, 9, "2025-12-10", "AMJILSIM", "HIRA brdBltNo=11684 — 9차 암질심 (웰리렉 미설정·뉴베카·옥타이로·테빔브라 5적응증 설정)"),
+    (2026, 7, 7, "2026-07-02", "YAKPYUNGWI", "HIRA brdBltNo=11844 — 7차 약평위 (엑스코프리·넴루비오 조건부·스프라바토·팁소보·옥스루모 + 카보메틱스·크리스비타·린파자 확대)"),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -76,13 +77,9 @@ def D(**kw):
 #   session_date 는 전역 UNIQUE 라 date 만으로 세션 해석 가능.
 # ──────────────────────────────────────────────────────────────────────────────
 EXPECTED_NEXT_SESSION: dict[str, str] = {
-    # 6/4 6차 약평위 결과(HIRA brdBltNo=11814) 반영: 카보메틱스·사이람자 6차 미진입 → Tier1 상향, 7/2 후보
-    "카보메틱스":   "2026-07-02",  # 6차 미진입 (5개월 경과) → 7/2 7차 Tier1
-    "사이람자":     "2026-07-02",  # 6차 미진입 → 7/2 7차 Tier1
-    "옵디보 + 여보이": "2026-07-02",  # 후보 7/2·8/6
-    "엘라히어주":   "2026-07-02",  # 후보 7/2(fast-track)·8/6
-    "버제니오정":   "2026-07-02",  # 6차 미진입 — 7/2 7차 후보 (HIRA brdBltNo=11814 공식)
+    # 7/2 7차 약평위 결과(HIRA brdBltNo=11844) 공개 → 7/2 후보는 expected 에서 제거.
     # 리브리반트주: 2026-06-04 6차 통과 → expected 제거 (nhis 단계)
+    # 카보메틱스: 2026-07-02 7차 약평위 통과 → expected 제거 (nhis 단계)
     "림카토주":     "2026-07-08",  # 재상정 희망 7/8 6차 암질심
 }
 
@@ -94,6 +91,8 @@ SESSION_STATUS_UPDATES: list[tuple[str, str, str]] = [
     ("2026-06-04", "COMPLETED",
      "6차 약평위 — 5개 의약품·9개 적응증 전체 통과 (HIRA brdBltNo=11814: "
      "지텍 조건부·빌로이·핀테플라·리브리반트 재상정 통과·테빔브라 RSA 확대 5적응증)."),
+    ("2026-07-02", "COMPLETED",
+     "7차 약평위 — 결정신청 5개 품목 및 위험분담계약 약제 사용범위 확대 3개 품목 심의결과 공개 (HIRA brdBltNo=11844)."),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -433,11 +432,16 @@ D(brand_kr="포말리스트", ingredient_inn="pomalidomide", manufacturer="BMS",
                evidence_url="HIRA brdBltNo=11770")])
 D(brand_kr="카보메틱스", ingredient_inn="cabozantinib", manufacturer="입센·HK이노엔",
   msd_flag=0, tracking_priority="competitor_class",
-  amjilsim_pass_date="2026-01-21", negotiation_status="IN_PROGRESS",
-  indication="신장세포암 단독 확대", listing_type="확대",
-  notes="암질심 1차(2026-01-21 매체) 통과. 약평위 미진입 4개월+. 후보 차수 6/4 6차·7/2 7차.",
+  amjilsim_pass_date="2026-01-21", yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="1차 치료에 실패한 전이성, 재발성 투명 신세포암에 단독요법", listing_type="확대",
+  notes="1차 암질심(2026-01-21 매체) 통과 후 7차 약평위(2026-07-02 HIRA brdBltNo=11844) "
+        "위험분담계약 약제 사용범위 확대 적정성 있음. 공식 문구: 1차 치료에 실패한 전이성, 재발성 투명 신세포암에 단독요법.",
   events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2026-01-21",
-               evidence_url="매체 보도 — HIRA 본문 미verified")])
+               evidence_url="매체 보도 — HIRA 본문 미verified"),
+          dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 RSA 확대 통과)")])
 D(brand_kr="사이람자", ingredient_inn="ramucirumab", manufacturer="한국릴리",
   msd_flag=0, tracking_priority="competitor_class",
   amjilsim_pass_date="2026-01-21", negotiation_status="IN_PROGRESS",
@@ -568,6 +572,69 @@ D(brand_kr="빌로이주", ingredient_inn="zolbetuximab", manufacturer="한국�
                session_date="2026-06-04", n_th_attempt=1,
                evidence_url="HIRA brdBltNo=11814 (6차 약평위 통과)")])
 
+# ── (E2) 2026-07-02 7차 약평위 통과 — HIRA brdBltNo=11844 (공식) ─────────────
+# 결정신청 5개 품목 + 위험분담계약 약제 사용범위 확대 3개 품목.
+D(brand_kr="엑스코프리정", ingredient_inn="cenobamate", manufacturer="동아에스티",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="성인 뇌전증 환자에서 기존 항뇌전증약으로 적절하게 조절이 되지 않으며 2차성 전신발작을 동반하거나 동반하지 않는 부분발작 치료의 부가요법",
+  listing_type="신규",
+  notes="7차 약평위(2026-07-02 HIRA brdBltNo=11844) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 통과)")])
+D(brand_kr="넴루비오프리필드펜", ingredient_inn="nemolizumab", manufacturer="갈더마코리아",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="아토피 피부염 — 전신요법의 대상이 되는 12세 이상의 청소년 및 성인에서 국소 치료제로 적절히 조절되지 않거나 이들 치료제가 권장되지 않는 중등도에서 중증 아토피 피부염의 치료",
+  listing_type="신규",
+  notes="7차 약평위(2026-07-02 HIRA brdBltNo=11844) 결정신청 약제 — 평가금액 이하 수용시 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 조건부 통과)")])
+D(brand_kr="스프라바토나잘스프레이", ingredient_inn="esketamine hydrochloride", manufacturer="한국얀센",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="최소 2개 이상의 다른 경구 항우울제에 적절히 반응하지 않는 성인의 중등도에서 중증의 주요 우울장애(치료저항성 우울증) 치료",
+  listing_type="신규",
+  notes="7차 약평위(2026-07-02 HIRA brdBltNo=11844) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 통과)")])
+D(brand_kr="팁소보정", ingredient_inn="ivosidenib", manufacturer="한국세르비에",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="IDH1 변이 양성인 이전 치료 경험이 있는 국소 진행성 또는 전이성 담관암 성인 환자에서의 단독요법",
+  listing_type="신규",
+  notes="7차 약평위(2026-07-02 HIRA brdBltNo=11844) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 통과)")])
+D(brand_kr="옥스루모주", ingredient_inn="lumasiran sodium", manufacturer="메디슨파마코리아",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="소아 및 성인에서의 제1형 원발성 고옥살산뇨증(PH1) 치료",
+  listing_type="신규",
+  notes="7차 약평위(2026-07-02 HIRA brdBltNo=11844) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 통과)")])
+D(brand_kr="크리스비타주사액", ingredient_inn="burosumab", manufacturer="한국쿄와기린",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="FGF23 관련 저인산혈증성 구루병 및 골연화증 성인 환자",
+  listing_type="확대",
+  notes="7차 약평위(2026-07-02 HIRA brdBltNo=11844) 위험분담계약 약제 사용범위 확대 — 급여 확대의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 RSA 확대 통과)")])
+
 # ── (F) HIRA 보도자료 크롤로 확인된 누락 종양 약제 (2025 암질심·약평위 in-progress) ──
 D(brand_kr="뉴베카정", ingredient_inn="darolutamide", manufacturer="바이엘코리아",
   msd_flag=0, tracking_priority="competitor_class",
@@ -611,12 +678,17 @@ D(brand_kr="폴라이비주", ingredient_inn="polatuzumab vedotin", manufacturer
                n_th_attempt=1, evidence_url="HIRA brdBltNo=11543 (6차 암질심)")])
 D(brand_kr="린파자정 확대", ingredient_inn="olaparib", manufacturer="한국아스트라제네카",
   msd_flag=0, tracking_priority="competitor_class",
-  amjilsim_pass_date="2025-09-03", yakpyungwi_pass_date=None, negotiation_status=None,
-  indication="①BRCA변이 mCRPC 단독 ②mCRPC 아비라테론·프레드니솔론 병용 ③HRD+ 난소·난관·복막암 베바시주맙 유지 (3개 급여기준 설정)",
+  amjilsim_pass_date="2025-09-03", yakpyungwi_pass_date="2026-07-02",
+  negotiation_status="IN_PROGRESS",
+  indication="난소암 베바시주맙병용요법 — 1차 백금 기반 항암화학요법과 베바시주맙 병용투여 요법에 반응한 HRD 양성 고도 상피성 난소암, 난관암 또는 일차 복막암 성인 환자의 병용 유지 요법",
   listing_type="확대",
-  notes="7차 암질심(2025-09-03 brdBltNo=11576) 전립선암·난소암 적응증 확대 급여기준 설정. 약평위 진입 대기.",
+  notes="7차 암질심(2025-09-03 brdBltNo=11576) 전립선암·난소암 적응증 확대 급여기준 설정. "
+        "7차 약평위(2026-07-02 HIRA brdBltNo=11844)에서 난소암 베바시주맙 병용 유지요법 급여 확대의 적정성 있음.",
   events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2025-09-03",
-               n_th_attempt=1, evidence_url="HIRA brdBltNo=11576 (7차 암질심 확대)")])
+               n_th_attempt=1, evidence_url="HIRA brdBltNo=11576 (7차 암질심 확대)"),
+          dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-07-02", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11844 (7차 약평위 RSA 확대 통과)")])
 D(brand_kr="업리즈나주", ingredient_inn="inebilizumab", manufacturer="미쓰비시다나베파마코리아",
   msd_flag=0, tracking_priority="generic_new_drug",
   amjilsim_pass_date=None, yakpyungwi_pass_date="2025-10-02", negotiation_status="IN_PROGRESS",
