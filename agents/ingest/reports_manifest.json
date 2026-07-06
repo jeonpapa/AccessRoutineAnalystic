@@ -121,6 +121,17 @@
       "cycle": 7,
       "session_date": "2026-07-03",
       "title": "2026년 7차 약제급여평가위원회 결과 리뷰 보고"
+    },
+    {
+      "file_name": "2026-07-06_amjilsim-6_d_minus_2.pdf",
+      "file_hash": "8072bb7088de5be7c2ea59e02ac76e772e85ffe8",
+      "url": "https://raw.githubusercontent.com/jeonpapa/AccessRoutineAnalystic/main/data/hira_pipeline/%EB%B3%B4%EA%B3%A0%EC%84%9C/D-2_%EC%82%AC%EC%A0%84_%EC%98%88%EC%B8%A1/2026-07-06_amjilsim-6_d_minus_2.pdf",
+      "committee": "cancer",
+      "report_type": "pre",
+      "year": 2026,
+      "cycle": 6,
+      "session_date": "2026-07-06",
+      "title": "2026년 6차 중증(암)질환심의위원회 사전 검토 보고"
     }
   ]
 }

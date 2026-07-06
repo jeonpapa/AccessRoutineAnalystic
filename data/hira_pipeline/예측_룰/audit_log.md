@@ -3,6 +3,33 @@
 > **자동 갱신 주기**: 매 차수 D+1 09:00
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
+## 2026-07-06 15:30 KST — D-2 PREDICTION BASELINE (6차 암질심, 2026-07-08)
+
+- 실행일: 2026-07-06 15:30 KST
+- Calendar gate: **ACTIVE** — 2026-07-08 제6차 중증(암)질환심의위원회 D-2
+- HIRA 공식 list 확인: `scripts/hira_press_extractor.py list --limit 10` 성공. 최신 committee release는 brdBltNo=11844(2026년 제7차 약제급여평가위원회 심의결과 공개), brdBltNo=11845는 일반 의료AI 기업 지원 보도. 6차 암질심 결과는 아직 미공개(회의 전).
+- 리더십 산출물: `data/hira_pipeline/보고서/D-2_사전_예측/2026-07-06_amjilsim-6_d_minus_2.md` / `.pdf`
+
+### 후보별 D+1 비교용 baseline
+
+| 후보 | predicted_on_agenda | confidence | 적용 rule_id / source logic | 핵심 근거 | 주요 불확실성 | D+1 체크 |
+|---|---|---|---|---|---|---|
+| 림카토주 (안발캅타젠 오토류셀) | YES | HIGH | PR-102/PR-미설정-재상정 logic + 5차 미설정 큐 | 5차 암질심 미설정(공식 brdBltNo=11808) 후 7/8 재상정 희망 신호, Blood 게재·장기 완전관해 보도 보강 | 장기 OS/RSA 구조/ATMP 등재 표준 수용성 | 상정 여부, 급여기준 설정/미설정, 사유 키워드 |
+| 임델트라 (탈라타맙) | YES | MEDIUM | PR-신규 후보: public-pressure/unmet-need 재상정 signal | 1차 미설정 후 복수 매체 재상정 보도 + 국민동의청원 52,647명 성원·복지위 심사 진입 | 구체 재상정 일정 미공개, 매체 본문 일부 접근 제한 | 실제 안건 포함 여부, 소세포폐암 급여기준 설정 여부 |
+| 옵디보+여보이 비소세포폐암 | WATCH | MEDIUM | IO combo expansion watch | 기존 medium watch 유지. 면역항암 병용 확대 신호 | 이번 차수 직접 상정 신호 제한적 | 안건 포함 시 MSD IO comparator 영향 기록 |
+| 티루캡정 (카피바설팁) | WATCH | MEDIUM-LOW | 4차 미설정 재도전 logic | 4차 암질심 미설정 후 재도전 가능성 | 보완자료·재신청 공개 신호 약함 | 상정 여부 및 미설정 반복 여부 |
+| 이토베비 (이나볼리십) | WATCH | LOW | 신규 임상근거 update watch | ASCO OS 데이터 발표 신호 | 국내 급여 신청/상정 신호 미확인 | 포함되면 신규 후보 룰 승격 검토 |
+| 알레센자·키스칼리 | WATCH | LOW | 5차 미설정 재도전 watch | 5차 미설정 공식 확인 | 보완기간 짧음, 재상정 공개 신호 약함 | 재상정 여부, CDK4/6/ALK adjuvant 쟁점 기록 |
+
+### D+1 audit 계획
+
+- 실제 공식 결과가 공개되면 위 baseline을 기준으로 ON_AGENDA TP/FP/FN 분류.
+- 림카토가 상정되면 5차 미설정→즉시 재상정 logic evidence +1. 미상정이면 7월 재도전 공개 신호의 lead-time/신뢰도 재보정.
+- 임델트라가 상정되면 public-pressure/unmet-need candidate rule을 formal CANDIDATE로 승격 검토. 미상정이면 매체 거명·청원 신호만으로는 agenda 예측 confidence 상향 금지.
+- 리더십 PDF에는 rule_id/precision/recall/시스템 메타 제외 완료. 본 audit_log에만 baseline 보존.
+
+---
+
 ## 2026-07-05 08:00 KST — D+1 DAEMON IDLE PASS
 
 - 실행일: 2026-07-05 08:00 KST
