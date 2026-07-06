@@ -168,7 +168,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont("HYGothic-Medium", 8)
     canvas.setFillColor(colors.HexColor("#64748b"))
-    canvas.drawString(18 * mm, 10 * mm, "AccessRoutineAnalystic · HIRA D+1 Review · official facts separated from internal commentary")
+    canvas.drawString(18 * mm, 10 * mm, "AccessRoutineAnalystic · HIRA Committee Report · official facts separated from internal commentary")
     canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, f"{doc.page}")
     canvas.restoreState()
 
