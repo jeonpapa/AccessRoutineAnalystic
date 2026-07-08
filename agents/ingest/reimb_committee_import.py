@@ -48,6 +48,7 @@ MISSING_SESSIONS = [
     (2025, 8, 8, "2025-10-29", "AMJILSIM", "HIRA brdBltNo=11643 — 8차 암질심 (텍베일리·엘렉스피오·파드셉·빌로이·옵디보 식도암)"),
     (2025, 9, 9, "2025-12-10", "AMJILSIM", "HIRA brdBltNo=11684 — 9차 암질심 (웰리렉 미설정·뉴베카·옥타이로·테빔브라 5적응증 설정)"),
     (2026, 7, 7, "2026-07-02", "YAKPYUNGWI", "HIRA brdBltNo=11844 — 7차 약평위 (엑스코프리·넴루비오 조건부·스프라바토·팁소보·옥스루모 + 카보메틱스·크리스비타·린파자 확대)"),
+    (2026, 6, 6, "2026-07-08", "AMJILSIM", "HIRA brdBltNo=11847 — 6차 암질심 (림카토·DCEP 설정, 퍼제타 재논의)"),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -78,9 +79,9 @@ def D(**kw):
 # ──────────────────────────────────────────────────────────────────────────────
 EXPECTED_NEXT_SESSION: dict[str, str] = {
     # 7/2 7차 약평위 결과(HIRA brdBltNo=11844) 공개 → 7/2 후보는 expected 에서 제거.
+    # 7/8 6차 암질심 결과(HIRA brdBltNo=11847) 공개 → 림카토주 expected 제거.
     # 리브리반트주: 2026-06-04 6차 통과 → expected 제거 (nhis 단계)
     # 카보메틱스: 2026-07-02 7차 약평위 통과 → expected 제거 (nhis 단계)
-    "림카토주":     "2026-07-08",  # 재상정 희망 7/8 6차 암질심
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -93,6 +94,8 @@ SESSION_STATUS_UPDATES: list[tuple[str, str, str]] = [
      "지텍 조건부·빌로이·핀테플라·리브리반트 재상정 통과·테빔브라 RSA 확대 5적응증)."),
     ("2026-07-02", "COMPLETED",
      "7차 약평위 — 결정신청 5개 품목 및 위험분담계약 약제 사용범위 확대 3개 품목 심의결과 공개 (HIRA brdBltNo=11844)."),
+    ("2026-07-08", "COMPLETED",
+     "6차 암질심 — 림카토주·DCEP 급여기준 설정, 퍼제타주 재논의 심의결과 공개 (HIRA brdBltNo=11847)."),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -136,7 +139,7 @@ KEY_ISSUES: dict[str, list[str]] = {
         "1/21 암질심 통과 후 약평위 5개월 미진입 — 7/2 7차 진입 가능성 상향 (Tier1)",
     ],
     "림카토주": [
-        "국산 1호 CAR-T — 5/27 암질심 미설정 (데이터 성숙도). 7/8 6차 암질심 재상정 추적",
+        "국산 1호 CAR-T — 5/27 암질심 미설정 후 7/8 6차 암질심에서 급여기준 설정 (HIRA brdBltNo=11847)",
     ],
 }
 
@@ -720,18 +723,39 @@ D(brand_kr="지텍정 75mg", ingredient_inn="건조계피추출물", manufacture
                session_date="2026-06-04", n_th_attempt=1,
                evidence_url="HIRA brdBltNo=11814 (6차 약평위 조건부 통과)")])
 
-# ── (D) 암질심 미설정 — 암질심_미설정.md ────────────────────────────────────
+# ── (D) 암질심 미설정/재논의 및 재상정 결과 — 암질심_미설정.md ─────────────────
 # amjilsim_pass_date null, 큐 이벤트 {AMJILSIM, REJECTED_REQUEUE, 차수} → cancer 단계.
 D(brand_kr="림카토주", ingredient_inn="anbalcabtagene autoleucel",
   manufacturer="큐로셀", msd_flag=0, tracking_priority="competitor_class",
-  amjilsim_pass_date=None, negotiation_status=None,
-  indication="r/r DLBCL·PMBCL CAR-T (국산 1호)", listing_type="신규",
-  notes="암질심 5차(2026-05-27 HIRA brdBltNo=11808) 미설정. 재상정 희망 7/8 6차 암질심. "
-        "장기 OS data 부재, RSA 구조 미확정, 한국 ATMP 등재 표준 부재. "
-        "5/28 큐로셀 주가 -14.76%.",
+  amjilsim_pass_date="2026-07-08", negotiation_status="IN_PROGRESS",
+  indication="두 가지 이상의 전신 치료 후 재발성 또는 불응성 미만성 거대 B세포 림프종(DLBCL) 및 원발성 종격동 거대 B세포 림프종(PMBCL) 성인 환자의 치료",
+  listing_type="신규",
+  notes="암질심 5차(2026-05-27 HIRA brdBltNo=11808) 미설정 후 6차(2026-07-08 HIRA brdBltNo=11847) 급여기준 설정. "
+        "국산 1호 CAR-T 재상정 통과.",
   events=[dict(committee="AMJILSIM", state="REJECTED_REQUEUE",
                session_date="2026-05-27", n_th_attempt=1,
-               evidence_url="HIRA brdBltNo=11808 (5차 암질심 미설정)")])
+               evidence_url="HIRA brdBltNo=11808 (5차 암질심 미설정)"),
+          dict(committee="AMJILSIM", state="APPROVED",
+               session_date="2026-07-08", n_th_attempt=2,
+               evidence_url="HIRA brdBltNo=11847 (6차 암질심 급여기준 설정)")])
+D(brand_kr="덱사메타손+시클로포스파미드+에토포시드+시스플라틴(DCEP)",
+  ingredient_inn="dexamethasone+cyclophosphamide+etoposide+cisplatin",
+  manufacturer="-", msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date="2026-07-08", negotiation_status="IN_PROGRESS",
+  indication="재발성 또는 불응성 다발골수종", listing_type="확대",
+  notes="6차 암질심(2026-07-08 HIRA brdBltNo=11847) 급여기준 확대 안건에서 급여기준 설정.",
+  events=[dict(committee="AMJILSIM", state="APPROVED",
+               session_date="2026-07-08", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11847 (6차 암질심 급여기준 설정)")])
+D(brand_kr="퍼제타주", ingredient_inn="pertuzumab", manufacturer="한국로슈",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date=None, negotiation_status=None,
+  indication="조기 유방암 — 국소진행성, 염증성 또는 초기 단계(지름 2㎝ 초과)인 HER2 양성 유방암 환자의 수술 전 보조요법으로서 트라스투주맙 및 화학요법과 병용투여",
+  listing_type="확대",
+  notes="6차 암질심(2026-07-08 HIRA brdBltNo=11847) 급여기준 확대 안건에서 재논의.",
+  events=[dict(committee="AMJILSIM", state="REJECTED_REQUEUE",
+               session_date="2026-07-08", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11847 (6차 암질심 재논의)")])
 D(brand_kr="알레센자캡슐", ingredient_inn="alectinib", manufacturer="한국로슈",
   msd_flag=0, tracking_priority="competitor_class",
   amjilsim_pass_date=None, negotiation_status=None,
