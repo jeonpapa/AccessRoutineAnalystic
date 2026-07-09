@@ -1,0 +1,234 @@
+{
+  "run_id": "20260708_210108",
+  "generated_at": "2026-07-08T21:01:08.234427+00:00",
+  "window_label": "이전 24시간",
+  "lookback_hours": 24,
+  "keywords": [
+    "약가 인하",
+    "급여 등재",
+    "약평위",
+    "암질심",
+    "건정심",
+    "약가협상",
+    "위험분담",
+    "RSA",
+    "급여",
+    "MSD",
+    "한국MSD",
+    "키트루다",
+    "가다실",
+    "린파자",
+    "웰리렉",
+    "Keytruda",
+    "Gardasil",
+    "Lynparza",
+    "Welireg",
+    "보건복지부",
+    "심평원",
+    "건보공단",
+    "약제급여평가위원회",
+    "재정영향",
+    "고시"
+  ],
+  "persona_ids": [
+    "ma_lead",
+    "brand_strategy",
+    "policy_watch"
+  ],
+  "reviewer_role_ids": [
+    "source_verifier",
+    "ma_strategist",
+    "competitive_intel",
+    "clinical_context",
+    "executive_editor",
+    "compliance_safety"
+  ],
+  "personas": [
+    "ma_lead",
+    "brand_strategy",
+    "policy_watch"
+  ],
+  "reviewer_roles": [
+    "source_verifier",
+    "ma_strategist",
+    "competitive_intel",
+    "clinical_context",
+    "executive_editor",
+    "compliance_safety"
+  ],
+  "media": [
+    "medi",
+    "yakup",
+    "hankyung"
+  ],
+  "dashboard_scope_snapshot": {
+    "subscription_id": "17",
+    "owner_email": "max@msd.com",
+    "recipients": [
+      "marketaccess@msd.com"
+    ],
+    "keywords": [
+      "약가 인하",
+      "급여 등재"
+    ],
+    "companies": [],
+    "brands": [],
+    "aliases": {},
+    "disease_areas": [],
+    "policy_topics": [],
+    "media": [
+      "medi",
+      "yakup",
+      "hankyung"
+    ],
+    "personas": [
+      "ma_lead",
+      "brand_strategy",
+      "policy_watch"
+    ],
+    "lookback_hours": 24,
+    "delivery_mode": "gmail_draft",
+    "include_top_ma_signals": true,
+    "include_user_keyword_watchlist": true
+  },
+  "discovered_count": 378,
+  "recent_count": 184,
+  "selected_count": 5,
+  "quality_report": {
+    "status": "quality_gated_draft",
+    "sendable": false,
+    "live_send_allowed": false,
+    "total_articles": 5,
+    "top_signal_count": 5,
+    "watchlist_count": 0,
+    "min_total_articles": 3,
+    "min_top_signals": 2,
+    "blocking_reasons": [],
+    "warnings": [
+      "duplicate_implication_boilerplate",
+      "official_cross_check_required"
+    ]
+  },
+  "status": "quality_gated_draft",
+  "delivery_status": "preview_only",
+  "approval_status": "not_requested",
+  "review_board_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/ma_daily_mailing_review_board_20260708_210108.json",
+  "markdown_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/ma_daily_mailing_draft_20260708_210108.md",
+  "html_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/ma_daily_mailing_draft_20260708_210108.html",
+  "json_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/ma_daily_mailing_draft_20260708_210108.json",
+  "items": [
+    {
+      "title": "국산 CAR-T 림카토 암질심 통과…퍼제타 보조요법 '재논의'",
+      "publisher_url": "https://www.medicaltimes.com/Main/News/NewsView.html?ID=1169668&ref=naverpc",
+      "naver_url": "https://www.medicaltimes.com/Main/News/NewsView.html?ID=1169668&ref=naverpc",
+      "description": "이번 암질심 통과로 림카토는 향후 약제급여평가위원회(약평위) 및 국민건강보험공단과의 약가협상 등 급여 등재를 위한 후속 절차에 속도를 낼 수 있게 됐다.이와 함께 급여기준 확대 부문에서는 재발성 또는 불응성...",
+      "published_at": "2026-07-08T18:46:00+09:00",
+      "keyword": "급여 등재",
+      "discovery_channel": "naver_news_api",
+      "source_name": "메디칼타임즈",
+      "source_tier": "media_tier_B",
+      "source_weight": 2.3,
+      "ma_depth": 3,
+      "novelty": 3,
+      "volume": 4,
+      "matched_keywords": [
+        "급여 등재",
+        "약평위",
+        "암질심",
+        "약가협상",
+        "급여",
+        "약제급여평가위원회"
+      ],
+      "score": 11.1
+    },
+    {
+      "title": "국산 첫 CAR-T '림카토' 암질심 통과…급여 등재 '청신호'",
+      "publisher_url": "https://www.medipana.com/news/articleView.html?idxno=414302",
+      "naver_url": "https://www.medipana.com/news/articleView.html?idxno=414302",
+      "description": "특히 림카토는 정부의 허가·평가·협상 병행 시범사업 대상 품목으로 지정돼 건강보험 등재 절차를 진행 중이다. 암질심에서 급여기준이 마련된 만큼 앞으로 약제급여평가위원회 심의와 국민건강보험공단 약가협상...",
+      "published_at": "2026-07-08T18:42:00+09:00",
+      "keyword": "급여 등재",
+      "discovery_channel": "naver_news_api",
+      "source_name": "메디파나뉴스",
+      "source_tier": "media_tier_A",
+      "source_weight": 2.8,
+      "ma_depth": 5,
+      "novelty": 4,
+      "volume": 5,
+      "matched_keywords": [
+        "급여 등재",
+        "암질심",
+        "약가협상",
+        "급여",
+        "약제급여평가위원회"
+      ],
+      "score": 11.05
+    },
+    {
+      "title": "림카토 암질심 재도전 성공...퍼제타주 급여확대 재논의",
+      "publisher_url": "https://new.dailypharm.com/user/news/340272?REFERER=NP",
+      "naver_url": "https://new.dailypharm.com/user/news/340272?REFERER=NP",
+      "description": "‘두 가지 이상의 전신 치료 후 재발성 또는 불응성 미만성 거대 B세포 림프종(DLBCL) 및 원발성 종격동 거대 B 세포 림프종(PMBCL) 성인 환자의 치료’로 기준이 마련되며 급여 등재에 한발 더 가까워졌다. 급여 확대는...",
+      "published_at": "2026-07-08T18:36:00+09:00",
+      "keyword": "급여 등재",
+      "discovery_channel": "naver_news_api",
+      "source_name": "데일리팜",
+      "source_tier": "media_tier_A",
+      "source_weight": 3.0,
+      "ma_depth": 5,
+      "novelty": 4,
+      "volume": 5,
+      "matched_keywords": [
+        "급여 등재",
+        "암질심",
+        "급여"
+      ],
+      "score": 8.75
+    },
+    {
+      "title": "림카토주 다시 암질심으로…환우회 \"급여기준 신속히 마련\"",
+      "publisher_url": "http://www.docdocdoc.co.kr/news/articleView.html?idxno=3040769",
+      "naver_url": "http://www.docdocdoc.co.kr/news/articleView.html?idxno=3040769",
+      "description": "한국백혈병혈액암환우회는 심평원 암질심이 열리는 8일 성명을 내고 \"재발·불응성 거대B세포림프종 3차... 지난 5월 열린 암질심에서는 급여기준이 설정되지 않았다. 환우회는 \"국내 생산 기반을 갖춘 CAR-T 치료제가...",
+      "published_at": "2026-07-08T11:26:00+09:00",
+      "keyword": "암질심",
+      "discovery_channel": "naver_news_api",
+      "source_name": "청년의사",
+      "source_tier": "media_tier_B",
+      "source_weight": 2.4,
+      "ma_depth": 3,
+      "novelty": 4,
+      "volume": 4,
+      "matched_keywords": [
+        "암질심",
+        "급여",
+        "심평원"
+      ],
+      "score": 8.45
+    },
+    {
+      "title": "로슈, 유방암 치료제 개발 오츠카 자회사와 제휴",
+      "publisher_url": "https://www.yakup.com/news/index.html?mode=view&cat=16&nid=329523",
+      "naver_url": "https://www.yakup.com/news/index.html?mode=view&cat=16&nid=329523",
+      "description": "한 예로 현재 아스텍스 파마슈티컬스는 KRAS G12C 변이 동반 진행성 또는 전이성 비편평 비소세포 폐암(NSCLC) 환자들을 위한 1차 약제로 ‘키트루다 큐렉스’(Keytrude Qlex: 펨브롤리주맙+베라히알루로니다제 α-pmph)와 아직...",
+      "published_at": "2026-07-08T06:02:00+09:00",
+      "keyword": "키트루다",
+      "discovery_channel": "naver_news_api",
+      "source_name": "약업신문",
+      "source_tier": "media_tier_A",
+      "source_weight": 2.9,
+      "ma_depth": 5,
+      "novelty": 4,
+      "volume": 5,
+      "matched_keywords": [
+        "키트루다"
+      ],
+      "score": 8.25
+    }
+  ],
+  "subscription_id": "17",
+  "is_test": false,
+  "result_review_report_markdown_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/result_review_report_20260708_210108.md",
+  "result_review_report_html_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/result_review_report_20260708_210108.html",
+  "result_review_report_pdf_path": "/opt/data/daily-monitoring/runs/drafts/17/regular/result_review_report_20260708_210108.pdf"
+}
