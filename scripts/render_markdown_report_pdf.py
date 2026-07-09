@@ -28,6 +28,20 @@ from reportlab.platypus import (
     TableStyle,
 )
 
+FONT_FAMILY = {
+    "regular": "ReportKorean-Regular",
+    "semibold": "ReportKorean-SemiBold",
+    "bold": "ReportKorean-Bold",
+}
+
+NOTO_STATIC = Path("/opt/data/fonts/noto-static")
+FONT_CANDIDATE_SETS = [
+    {
+        "regular": NOTO_STATIC / "NotoSansKR-400.ttf",
+        "semibold": NOTO_STATIC / "NotoSansKR-600.ttf",
+        "bold": NOTO_STATIC / "NotoSansKR-700.ttf",
+    },
+]
 FONT_CANDIDATES = [
     Path("/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf"),
     Path("/usr/share/fonts/truetype/fonts-japanese-gothic.ttf"),
@@ -35,23 +49,37 @@ FONT_CANDIDATES = [
 ]
 
 
-def register_font() -> str:
-    # ReportLab's built-in Korean CID font is the safest fallback in minimal
-    # Linux images where broad-coverage OTF fonts may use unsupported CFF
-    # outlines. It keeps Korean text extractable and avoids tofu boxes.
-    try:
-        pdfmetrics.registerFont(UnicodeCIDFont("HYGothic-Medium"))
-        return "HYGothic-Medium"
-    except Exception:
-        pass
+def register_fonts() -> dict[str, str]:
+    """Register Korean fonts and return regular/semibold/bold font names.
+
+    HIRA leadership PDFs should match the accepted 약평위 D+1 style: embedded
+    NotoSansKR Regular/SemiBold/Bold when available, not ReportLab's minimal
+    HYGothic CID fallback.
+    """
+    for font_set in FONT_CANDIDATE_SETS:
+        if all(path.exists() for path in font_set.values()):
+            try:
+                pdfmetrics.registerFont(TTFont(FONT_FAMILY["regular"], str(font_set["regular"])))
+                pdfmetrics.registerFont(TTFont(FONT_FAMILY["semibold"], str(font_set["semibold"])))
+                pdfmetrics.registerFont(TTFont(FONT_FAMILY["bold"], str(font_set["bold"])))
+                return FONT_FAMILY.copy()
+            except TTFError:
+                pass
+
+    # Fallbacks for minimal Linux images. Prefer TrueType files before the CID
+    # font so headings/body use one extractable embedded font where possible.
     for path in FONT_CANDIDATES:
         if path.exists():
             try:
                 pdfmetrics.registerFont(TTFont("ReportKorean", str(path)))
-                return "ReportKorean"
+                return {"regular": "ReportKorean", "semibold": "ReportKorean", "bold": "ReportKorean"}
             except TTFError:
                 continue
-    return "Helvetica"
+    try:
+        pdfmetrics.registerFont(UnicodeCIDFont("HYGothic-Medium"))
+        return {"regular": "HYGothic-Medium", "semibold": "HYGothic-Medium", "bold": "HYGothic-Medium"}
+    except Exception:
+        return {"regular": "Helvetica", "semibold": "Helvetica-Bold", "bold": "Helvetica-Bold"}
 
 
 def esc(text: str) -> str:
@@ -59,7 +87,6 @@ def esc(text: str) -> str:
         text.replace("&", "&amp;")
         .replace("<", "&lt;")
         .replace(">", "&gt;")
-        .replace("**", "")
         .replace("`", "")
     )
 
@@ -166,28 +193,30 @@ def build_story(md: str, styles: dict[str, ParagraphStyle], avail_width: float):
 
 def footer(canvas, doc):
     canvas.saveState()
-    canvas.setFont("HYGothic-Medium", 8)
+    footer_font = getattr(doc, "footer_font", "Helvetica")
+    canvas.setFont(footer_font, 8)
     canvas.setFillColor(colors.HexColor("#64748b"))
-    canvas.drawString(18 * mm, 10 * mm, "AccessRoutineAnalystic · HIRA Committee Report · official facts separated from internal commentary")
+    canvas.drawString(18 * mm, 10 * mm, "HIRA Market Access Intelligence | Leadership Brief")
     canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, f"{doc.page}")
     canvas.restoreState()
 
 
 def render(src: Path, dst: Path) -> None:
-    font = register_font()
+    fonts = register_fonts()
     base = getSampleStyleSheet()
     styles = {
-        "Title": ParagraphStyle("Title", parent=base["Title"], fontName=font, fontSize=18, leading=24, alignment=TA_CENTER, textColor=colors.HexColor("#0f172a"), spaceAfter=6),
-        "Heading2": ParagraphStyle("Heading2", parent=base["Heading2"], fontName=font, fontSize=14, leading=19, textColor=colors.HexColor("#1e3a8a"), spaceBefore=8, spaceAfter=5),
-        "Heading3": ParagraphStyle("Heading3", parent=base["Heading3"], fontName=font, fontSize=11.5, leading=16, textColor=colors.HexColor("#334155"), spaceBefore=6, spaceAfter=3),
-        "Body": ParagraphStyle("Body", parent=base["BodyText"], fontName=font, fontSize=9.2, leading=14, alignment=TA_LEFT, spaceAfter=3),
-        "Bullet": ParagraphStyle("Bullet", parent=base["BodyText"], fontName=font, fontSize=9.0, leading=13, leftIndent=8, firstLineIndent=-8, spaceAfter=2),
-        "TableCell": ParagraphStyle("TableCell", parent=base["BodyText"], fontName=font, fontSize=7.3, leading=9.5),
+        "Title": ParagraphStyle("Title", parent=base["Title"], fontName=fonts["bold"], fontSize=18, leading=24, alignment=TA_CENTER, textColor=colors.HexColor("#0f172a"), spaceAfter=6),
+        "Heading2": ParagraphStyle("Heading2", parent=base["Heading2"], fontName=fonts["bold"], fontSize=14, leading=19, textColor=colors.HexColor("#1e3a8a"), spaceBefore=8, spaceAfter=5),
+        "Heading3": ParagraphStyle("Heading3", parent=base["Heading3"], fontName=fonts["semibold"], fontSize=11.5, leading=16, textColor=colors.HexColor("#334155"), spaceBefore=6, spaceAfter=3),
+        "Body": ParagraphStyle("Body", parent=base["BodyText"], fontName=fonts["regular"], boldFontName=fonts["bold"], fontSize=9.2, leading=14, alignment=TA_LEFT, spaceAfter=3),
+        "Bullet": ParagraphStyle("Bullet", parent=base["BodyText"], fontName=fonts["regular"], boldFontName=fonts["bold"], fontSize=9.0, leading=13, leftIndent=8, firstLineIndent=-8, spaceAfter=2),
+        "TableCell": ParagraphStyle("TableCell", parent=base["BodyText"], fontName=fonts["regular"], boldFontName=fonts["bold"], fontSize=7.3, leading=9.5),
     }
     left = right = 14 * mm
     top = 16 * mm
     bottom = 16 * mm
     doc = BaseDocTemplate(str(dst), pagesize=A4, leftMargin=left, rightMargin=right, topMargin=top, bottomMargin=bottom)
+    doc.footer_font = fonts["regular"]
     frame = Frame(left, bottom, A4[0] - left - right, A4[1] - top - bottom, id="normal")
     doc.addPageTemplates([PageTemplate(id="main", frames=[frame], onPage=footer)])
     story = build_story(src.read_text(encoding="utf-8"), styles, A4[0] - left - right)
