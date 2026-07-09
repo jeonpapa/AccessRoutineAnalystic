@@ -26,5 +26,12 @@
     "active": true,
     "updated_at": "2026-07-07T04:11:59.088538+00:00",
     "has_test_request": false
+  },
+  {
+    "subscription_id": "18",
+    "name": "7월 8일 암질심 결과",
+    "active": true,
+    "updated_at": "2026-07-09T00:12:04.746547+00:00",
+    "has_test_request": false
   }
 ]
