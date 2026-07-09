@@ -3,6 +3,71 @@
 > **자동 갱신 주기**: 매 차수 D+1 09:00
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
+## 2026-07-09 12:00 KST — D+1 공식 Audit (6차 암질심)
+
+- 실행일: 2026-07-09 12:00 KST
+- 대상 회의: **2026-07-08 제6차 중증(암)질환심의위원회**
+- 공식 근거: HIRA 보도자료 detail 확인 성공 — `2026년 제6차 중증(암)질환심의위원회 심의결과 공개`, `brdBltNo=11847`, 게시일 2026-07-08
+- 리더십 산출물: `data/hira_pipeline/보고서/D+1_결과_리뷰/2026-07-09_amjilsim-6_d_plus_1.md` / `.pdf`
+
+### 공식 결과 요약
+
+| 품목 | 실제 ON_AGENDA | 공식 결과 | 판정 메모 |
+|---|---|---|---|
+| 림카토주(안발캅타젠 오토류셀) | YES | 급여기준 설정 | 5차 미설정 후 보완·재상정 성공 |
+| DCEP 병용요법 | YES | 급여기준 설정 | 기존 성분 병용요법 급여기준 신설 |
+| 퍼제타주(퍼투주맙) | YES | 재논의 | 조기 HER2+ 유방암 수술 전 보조요법 확대 결론 유보 |
+
+### D-2 baseline 대비 예측 검증
+
+| 후보 | baseline predicted_on_agenda | confidence | 실제 ON_AGENDA | 결과 | 적용 logic | 조정 |
+|---|---|---|---|---|---|---|
+| 림카토주 | YES | HIGH | YES | TP | PR-102/미설정-재상정 logic | evidence +1, weight 상향 후보 |
+| 임델트라 | YES | MEDIUM | NO | FP | public-pressure/unmet-need signal | weight -0.05, 청원 단독 상향 금지 |
+| 옵디보+여보이 비소세포폐암 | WATCH | MEDIUM | NO | FP | IO combo expansion watch | direct application/re-application signal 없으면 WATCH 유지 |
+| 티루캡정 | WATCH | MEDIUM-LOW | NO | FP | 4차 미설정 재도전 logic | 보완자료·재신청 확인 전 confidence 상향 금지 |
+| 이토베비 | WATCH | LOW | NO | FP | 신규 임상근거 update watch | 임상학회 데이터만으로 agenda 예측 금지 |
+| 알레센자·키스칼리 | WATCH | LOW | NO | FP | 5차 미설정 재도전 watch | 보완기간 짧은 재상정은 low 유지 |
+| 퍼제타주 | NO | — | YES | FN | 선별급여 보유 약제 확대신청 미추적 | 신규 candidate rule 생성 |
+| DCEP 병용요법 | NO | — | YES | FN | 기존 성분 병용요법 급여기준 신설 미추적 | 신규 candidate rule 생성 |
+
+### Audit 수치
+
+| 지표 | 값 | 비고 |
+|---|---|---|
+| TP | 1건 | 림카토주 |
+| FP | 5건 | 임델트라·옵디보+여보이·티루캡·이토베비·알레센자/키스칼리 |
+| FN | 2건 | 퍼제타주·DCEP |
+| precision | 1/6 = **0.17** | public-pressure 및 broad watch candidate 과다 |
+| recall | 1/3 = **0.33** | 기존 regimen·선별급여 확대 트랙 미포착 |
+| F1 | **0.22** | 다음 차수에서 candidate universe 개선 필요 |
+
+### Root cause 및 다음 차수 조정안
+
+1. **임델트라 FP 재발**
+   - 국민동의청원 성원, 국회 보건복지위 심사 진입, 복수 매체 언급은 high unmet need를 보여주지만 실제 암질심 안건화와는 분리된다.
+   - 조정: `public-pressure/unmet-need` 후보 룰 weight를 **0.55 → 0.50**으로 감점. `회사 재신청 확인`, `HIRA/학회/전문가 공식 근거 보완`, `회의 직전 복수 매체의 구체 회차 언급` 중 2개 이상이 없으면 YES가 아니라 WATCH로만 유지.
+
+2. **림카토 TP 확증**
+   - 5차 미설정 → Blood 게재·보완자료 → 6차 재상정·급여기준 설정으로 이어져 미설정 후 단기 재상정 logic의 첫 공식 TP가 됐다.
+   - 조정: `PR-102/미설정-재상정` active rule로 분리 관리하고 evidence_count +1. 단, 단순 매체 관심이 아니라 **미설정 사유를 직접 해소하는 보완자료**가 있어야 HIGH로 승격.
+
+3. **퍼제타주 FN — 기존 급여/선별급여 보유 약제의 확대신청 트랙 누락**
+   - 신약·재상정 후보 중심 탐색으로 이미 급여 또는 선별급여를 보유한 항암제의 급여기준 확대 신청을 놓쳤다.
+   - 조정: `PR-NEW-AMJ-002_기급여_항암제_급여기준확대.md` candidate 생성. 다음 암질심부터 `기급여`, `선별급여`, `급여확대`, `수술 전/후 보조요법`, `병용투여` 키워드 탐색을 추가.
+
+4. **DCEP FN — 기존 성분 병용요법 급여기준 신설 미추적**
+   - 브랜드 신약 중심 검색이 기존 화학요법 조합·regimen 급여기준 신설을 포착하지 못했다.
+   - 조정: `PR-NEW-AMJ-003_기존요법_regimen_급여기준신설.md` candidate 생성. 다발골수종·혈액암 영역에서 regimen명(DCEP 등)과 성분 조합명을 모두 수집.
+
+### 다음 모니터링 우선순위
+
+- 7차 암질심(2026-08-19): 임델트라 재도전, 퍼제타주 재논의 후 보완 여부, 티루캡/유방암 정밀치료제 재신청 신호.
+- 8차 약평위(2026-08-06): 사이람자·엘라히어·버제니오 및 RSA 확대 트랙 별도 추적.
+- 리더십 PDF에는 예측 보정·TP/FP/FN·rule_id·system metadata를 넣지 않았고, 공식 결과와 시장/정책 시사점 중심으로 분리 작성 완료.
+
+---
+
 ## 2026-07-08 08:00 KST — D+1 DAEMON IDLE PASS
 
 - 실행일: 2026-07-08 08:00 KST

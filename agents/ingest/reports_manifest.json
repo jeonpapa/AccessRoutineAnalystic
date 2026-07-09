@@ -132,6 +132,17 @@
       "cycle": 6,
       "session_date": "2026-07-06",
       "title": "2026년 6차 중증(암)질환심의위원회 사전 검토 보고"
+    },
+    {
+      "file_name": "2026-07-09_amjilsim-6_d_plus_1.pdf",
+      "file_hash": "28d59185cb76e72b65299d5d7a11060ab45b4b81",
+      "url": "https://raw.githubusercontent.com/jeonpapa/AccessRoutineAnalystic/main/data/hira_pipeline/%EB%B3%B4%EA%B3%A0%EC%84%9C/D%2B1_%EA%B2%B0%EA%B3%BC_%EB%A6%AC%EB%B7%B0/2026-07-09_amjilsim-6_d_plus_1.pdf",
+      "committee": "cancer",
+      "report_type": "post",
+      "year": 2026,
+      "cycle": 6,
+      "session_date": "2026-07-09",
+      "title": "2026년 6차 중증(암)질환심의위원회 결과 리뷰 보고"
     }
   ]
 }
