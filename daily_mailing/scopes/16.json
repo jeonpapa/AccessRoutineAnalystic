@@ -1,0 +1,64 @@
+{
+  "subscription_id": "16",
+  "name": "모니터링S",
+  "owner_email": "max@msd.com",
+  "recipients": [
+    "yo.seop.jeon@msd.com"
+  ],
+  "keywords": [],
+  "companies": [
+    "MSD",
+    "아스트라제네카",
+    "로슈"
+  ],
+  "brands": [
+    "Keytruda",
+    "Welireg",
+    "윈레브에어",
+    "키트루다",
+    "웰리렉",
+    "가다실",
+    "박스뉴반스"
+  ],
+  "aliases": {},
+  "disease_areas": [
+    "항암제",
+    "표적치료제",
+    "ADC"
+  ],
+  "policy_topics": [],
+  "media": [
+    "medi",
+    "yakup",
+    "hankyung",
+    "doctorsnews",
+    "medigate",
+    "kpanews",
+    "hitnews",
+    "chosun",
+    "joongang",
+    "donga",
+    "hani",
+    "kyunghyang",
+    "ytn",
+    "kbs",
+    "mbc",
+    "naver",
+    "daum"
+  ],
+  "custom_sources": [],
+  "personas": [
+    "ma_lead",
+    "brand_strategy",
+    "policy_watch"
+  ],
+  "lookback_hours": 24,
+  "delivery_mode": "gmail_draft",
+  "schedule": "Daily",
+  "time": "07:00",
+  "week_day": null,
+  "active": true,
+  "include_top_ma_signals": true,
+  "include_user_keyword_watchlist": true,
+  "updated_at": "2026-07-06T15:05:37.295868+00:00"
+}
