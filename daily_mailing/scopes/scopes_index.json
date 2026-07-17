@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "subscription_id": "14",
+    "name": "약가 정책 모니터링",
+    "active": true,
+    "updated_at": "2026-07-05T17:17:54.830487+00:00",
+    "has_test_request": false
+  },
+  {
+    "subscription_id": "15",
+    "name": "새 메일링 설정",
+    "active": true,
+    "updated_at": "2026-07-05T22:56:16.442922+00:00",
+    "has_test_request": false
+  },
+  {
+    "subscription_id": "16",
+    "name": "모니터링S",
+    "active": true,
+    "updated_at": "2026-07-06T15:05:37.295868+00:00",
+    "has_test_request": false
+  },
+  {
+    "subscription_id": "17",
+    "name": "100일 신속등재",
+    "active": true,
+    "updated_at": "2026-07-07T04:11:59.088538+00:00",
+    "has_test_request": false
+  },
+  {
+    "subscription_id": "18",
+    "name": "7월 8일 암질심 결과",
+    "active": true,
+    "updated_at": "2026-07-09T00:12:04.746547+00:00",
+    "has_test_request": false
+  }
+]
