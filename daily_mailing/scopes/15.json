@@ -1,0 +1,71 @@
+{
+  "subscription_id": "15",
+  "name": "새 메일링 설정",
+  "owner_email": "max@msd.com",
+  "recipients": [
+    "yo.seop.jeon@msd.com"
+  ],
+  "keywords": [
+    "약가 인하",
+    "급여 등재",
+    "심평원",
+    "키트루다",
+    "표적치료제",
+    "면역항암제"
+  ],
+  "companies": [
+    "MSD"
+  ],
+  "brands": [
+    "Keytruda",
+    "Gardasil",
+    "Lynparza",
+    "Welireg"
+  ],
+  "aliases": {},
+  "disease_areas": [],
+  "policy_topics": [
+    "암질심",
+    "약평위",
+    "건정심",
+    "위험분담"
+  ],
+  "media": [
+    "medi",
+    "yakup",
+    "hankyung",
+    "doctorsnews",
+    "medigate",
+    "kpanews",
+    "hitnews",
+    "chosun",
+    "joongang",
+    "donga",
+    "hani",
+    "kyunghyang",
+    "maeil",
+    "edaily",
+    "mt",
+    "fnews"
+  ],
+  "custom_sources": [
+    {
+      "url": "https://www.newsthevoice.com/news/articleList.html",
+      "name": "뉴스인더보이스"
+    }
+  ],
+  "personas": [
+    "ma_lead",
+    "brand_strategy",
+    "policy_watch"
+  ],
+  "lookback_hours": 24,
+  "delivery_mode": "gmail_draft",
+  "schedule": "Daily",
+  "time": "08:00",
+  "week_day": null,
+  "active": true,
+  "include_top_ma_signals": true,
+  "include_user_keyword_watchlist": true,
+  "updated_at": "2026-07-05T22:56:16.442922+00:00"
+}
