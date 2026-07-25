@@ -1,0 +1,54 @@
+{
+  "subscription_id": "14",
+  "name": "약가 정책 모니터링",
+  "owner_email": "admin@marketintel.kr",
+  "recipients": [
+    "yo.seop.jeon@msd.com"
+  ],
+  "keywords": [
+    "약가 인하",
+    "급여 등재",
+    "심평원",
+    "바이오시밀러",
+    "면역항암제",
+    "표적치료제",
+    "키트루다",
+    "옵디보",
+    "신속등재",
+    "윈레브에어",
+    "웰리렉"
+  ],
+  "companies": [],
+  "brands": [],
+  "aliases": {},
+  "disease_areas": [],
+  "policy_topics": [],
+  "media": [
+    "medi",
+    "yakup",
+    "doctorsnews",
+    "medigate",
+    "kpanews",
+    "hitnews",
+    "hankyung",
+    "maeil",
+    "edaily",
+    "mt",
+    "fnews"
+  ],
+  "custom_sources": [],
+  "personas": [
+    "ma_lead",
+    "brand_strategy",
+    "policy_watch"
+  ],
+  "lookback_hours": 24,
+  "delivery_mode": "gmail_draft",
+  "schedule": "Daily",
+  "time": "08:00",
+  "week_day": null,
+  "active": true,
+  "include_top_ma_signals": true,
+  "include_user_keyword_watchlist": true,
+  "updated_at": "2026-07-05T17:17:54.830487+00:00"
+}
