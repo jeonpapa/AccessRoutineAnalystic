@@ -38,7 +38,14 @@ data/hira_pipeline/
 │   ├── 통과_사유.md
 │   ├── 미통과_사유.md
 │   └── 매체별_보도_특성.md
+├── 예측_룰/                            # 상정·결과 예측 자가학습 룰
+│   ├── README.md
+│   ├── audit_log.md
+│   ├── active/
+│   ├── candidate/
+│   └── retired/
 └── 보고서/                             # 시니어 리더십 보고서
+    ├── REPORT_QUALITY_SELF_IMPROVEMENT_RULES.md
     ├── D-2_사전_예측/
     ├── D+1_결과_리뷰/
     └── 월간_트렌드_진단/

@@ -31,6 +31,8 @@ Single specialist agent for HIRA Market Access intelligence routines: Yakpyeongw
 - Use HIRA terms: 급여 적정성 있음, 평가금액 이하 수용 시 적정, 위험분담 확대 적정, 재심의, 급여기준 설정/미설정.
 - Do not expose media idx, brdBltNo, PR rule IDs, precision/recall, or system metadata in leadership reports. Keep those in audit files only.
 - Audience: MSD Korea Market Access leadership.
+- Before drafting, inspect peer-agent/Claude baseline reports under `data/hira_pipeline/보고서/` and prediction-learning materials under `data/hira_pipeline/예측_룰/`.
+- Follow `data/hira_pipeline/보고서/REPORT_QUALITY_SELF_IMPROVEMENT_RULES.md` for senior Market Access lead tone, D-2/D+1 skeleton parity, compact tables, MSD read-through, and self-score ≥8 quality gate.
 
 ## Delivery rules
 - Slack: allowed for summaries in originating thread.
