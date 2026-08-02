@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   listMailSubscriptions, createMailSubscription, updateMailSubscription,
   deleteMailSubscription, testSendMailSubscription, previewMailSubscription, previewAdHoc,
+  exportMailSubscriptionScope,
   type MailSubscription, type MailPreview,
 } from '@/api/mailSubscriptions';
 
@@ -61,10 +62,10 @@ export default function DailyMailingPage() {
   const [customKeyword, setCustomKeyword] = useState('');
   const [selectedMedia, setSelectedMedia] = useState<string[]>(['medi', 'yakup', 'hankyung']);
   const [schedule, setSchedule] = useState<'Daily' | 'Weekly'>('Daily');
-  const [scheduleTime, setScheduleTime] = useState('08:00');
+  const [scheduleTime, setScheduleTime] = useState('06:00');
   const [weekDay, setWeekDay] = useState('Monday');
   const [emailInput, setEmailInput] = useState('');
-  const [emailList, setEmailList] = useState<string[]>(['marketaccess@msd.com']);
+  const [emailList, setEmailList] = useState<string[]>(['yo.seop.jeon@msd.com']);
   const [settingName, setSettingName] = useState('');
   const [savedSettings, setSavedSettings] = useState<MailSubscription[]>([]);
   const [smtpConfigured, setSmtpConfigured] = useState(false);
@@ -199,6 +200,16 @@ export default function DailyMailingPage() {
       alert(e instanceof Error ? e.message : '발송 실패');
     } finally {
       setTestingId(null);
+    }
+  };
+
+  const handleExportScope = async (id: number) => {
+    try {
+      const r = await exportMailSubscriptionScope(id);
+      alert(`Hermes scope JSON 동기화 완료\n${r.scope_path}\nindex: ${r.index_path}`);
+      await reload();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'Scope JSON 동기화 실패');
     }
   };
 
@@ -640,6 +651,12 @@ export default function DailyMailingPage() {
                       className="text-xs px-3 py-1 rounded-full cursor-pointer whitespace-nowrap transition-all border border-[#8B9BB4]/30 text-[#8B9BB4] hover:bg-[#8B9BB4]/10"
                     >
                       프리뷰
+                    </button>
+                    <button
+                      onClick={() => handleExportScope(setting.id)}
+                      className="text-xs px-3 py-1 rounded-full cursor-pointer whitespace-nowrap transition-all border border-[#7C3AED]/30 text-[#C4B5FD] hover:bg-[#7C3AED]/10"
+                    >
+                      Scope JSON
                     </button>
                     <button
                       onClick={() => handleTestSend(setting.id)}

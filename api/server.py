@@ -3764,6 +3764,108 @@ def _mail_sub_row_to_dict(r) -> dict:
 
 
 _MAIL_SUB_COLS = "id, name, keywords_json, media_json, schedule, time, week_day, emails_json, active, created_at, updated_at, last_sent_at"
+_MAIL_SCOPE_DIR = BASE_DIR / "daily_mailing" / "scopes"
+
+
+def _mail_scope_index_payload() -> list[dict]:
+    """Return scheduler-facing Daily Mailing scope index from JSON scope files.
+
+    The dashboard DB owns basic subscription CRUD, while Hermes cron consumes
+    deterministic JSON snapshots from ``daily_mailing/scopes``. This keeps the
+    06:00 KST runner independent from the dashboard database and makes each run
+    auditable through the exact scope snapshot.
+    """
+    import json as _json
+    items: list[dict] = []
+    if not _MAIL_SCOPE_DIR.exists():
+        return items
+    for p in sorted(_MAIL_SCOPE_DIR.glob("*.json"), key=lambda x: x.stem):
+        if p.name == "scopes_index.json":
+            continue
+        try:
+            data = _json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            logger.warning("daily mailing scope JSON 읽기 실패: %s", p, exc_info=True)
+            continue
+        items.append({
+            "subscription_id": str(data.get("subscription_id") or p.stem),
+            "name": data.get("name") or f"subscription {p.stem}",
+            "active": bool(data.get("active", True)),
+            "updated_at": data.get("updated_at"),
+            "has_test_request": bool(data.get("test_request")),
+        })
+    return items
+
+
+def _write_mail_scope_index() -> None:
+    import json as _json
+    _MAIL_SCOPE_DIR.mkdir(parents=True, exist_ok=True)
+    (_MAIL_SCOPE_DIR / "scopes_index.json").write_text(
+        _json.dumps(_mail_scope_index_payload(), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _mail_scope_from_item(item: dict, owner_email: str) -> dict:
+    import json as _json
+    sid = str(item["id"])
+    existing_path = _MAIL_SCOPE_DIR / f"{sid}.json"
+    existing: dict = {}
+    if existing_path.exists():
+        try:
+            existing = _json.loads(existing_path.read_text(encoding="utf-8"))
+        except Exception:
+            existing = {}
+    scope = {
+        "subscription_id": sid,
+        "name": item.get("name") or existing.get("name") or f"subscription {sid}",
+        "owner_email": owner_email,
+        "recipients": item.get("emails") or existing.get("recipients") or [],
+        "keywords": item.get("keywords") or [],
+        # Advanced fields are preserved if an operator/dashboard extension has
+        # already added them to the scope JSON; the current DB table owns only
+        # keywords/media/schedule/recipients.
+        "companies": existing.get("companies") or [],
+        "brands": existing.get("brands") or [],
+        "aliases": existing.get("aliases") or {},
+        "disease_areas": existing.get("disease_areas") or [],
+        "policy_topics": existing.get("policy_topics") or [],
+        "media": item.get("media") or [],
+        "custom_sources": existing.get("custom_sources") or [],
+        "forwarded_input_paths": existing.get("forwarded_input_paths") or [],
+        "personas": existing.get("personas") or ["ma_lead", "brand_strategy", "policy_watch"],
+        "lookback_hours": int(existing.get("lookback_hours") or 24),
+        "delivery_mode": existing.get("delivery_mode") or "gmail_draft",
+        "schedule": item.get("schedule") or "Daily",
+        "time": item.get("time") or "06:00",
+        "week_day": item.get("weekDay"),
+        "active": bool(item.get("active", True)),
+        "include_top_ma_signals": bool(existing.get("include_top_ma_signals", True)),
+        "include_user_keyword_watchlist": bool(existing.get("include_user_keyword_watchlist", True)),
+        "updated_at": item.get("updated_at"),
+    }
+    if existing.get("test_request"):
+        scope["test_request"] = existing["test_request"]
+    return scope
+
+
+def _write_mail_scope_from_item(item: dict, owner_email: str) -> dict:
+    import json as _json
+    _MAIL_SCOPE_DIR.mkdir(parents=True, exist_ok=True)
+    scope = _mail_scope_from_item(item, owner_email)
+    (_MAIL_SCOPE_DIR / f"{scope['subscription_id']}.json").write_text(
+        _json.dumps(scope, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    _write_mail_scope_index()
+    return scope
+
+
+def _delete_mail_scope(item_id: int) -> None:
+    p = _MAIL_SCOPE_DIR / f"{item_id}.json"
+    if p.exists():
+        p.unlink()
+    _write_mail_scope_index()
 
 
 def _coerce_mail_sub_input(body: dict) -> dict | tuple[dict, str]:
@@ -3862,7 +3964,9 @@ def mail_sub_create():
             row = conn.execute(
                 f"SELECT {_MAIL_SUB_COLS} FROM mail_subscription WHERE id=?", (cur.lastrowid,),
             ).fetchone()
-        return jsonify({"item": _mail_sub_row_to_dict(row)}), 201
+        item = _mail_sub_row_to_dict(row)
+        scope = _write_mail_scope_from_item(item, owner)
+        return jsonify({"item": item, "scope": scope}), 201
     except Exception as e:
         logger.error("mail_sub_create 실패: %s", e, exc_info=True)
         return jsonify({"error": str(e)}), 500
@@ -3896,7 +4000,9 @@ def mail_sub_update(item_id: int):
             row = conn.execute(
                 f"SELECT {_MAIL_SUB_COLS} FROM mail_subscription WHERE id=?", (item_id,),
             ).fetchone()
-        return jsonify({"item": _mail_sub_row_to_dict(row)})
+        item = _mail_sub_row_to_dict(row)
+        scope = _write_mail_scope_from_item(item, owner)
+        return jsonify({"item": item, "scope": scope})
     except Exception as e:
         logger.error("mail_sub_update 실패: %s", e, exc_info=True)
         return jsonify({"error": str(e)}), 500
@@ -3915,9 +4021,40 @@ def mail_sub_delete(item_id: int):
             if res.rowcount == 0:
                 return jsonify({"error": "not found", "code": "NOT_FOUND"}), 404
             conn.commit()
+        _delete_mail_scope(item_id)
         return jsonify({"ok": True})
     except Exception as e:
         logger.error("mail_sub_delete 실패: %s", e, exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.get("/api/mail-subscriptions/<int:item_id>/scope")
+@require_auth()
+def mail_sub_scope(item_id: int):
+    """Scheduler-facing DashboardScope JSON for a saved subscription.
+
+    This is the explicit dashboard → Hermes scope contract consumed by
+    `/opt/data/scripts/ma_daily_mailing_runner.py` and daily-monitoring.
+    """
+    owner = request.user["sub"]  # type: ignore[attr-defined]
+    try:
+        with db._connect() as conn:
+            row = conn.execute(
+                f"SELECT {_MAIL_SUB_COLS} FROM mail_subscription WHERE id=? AND owner_email=?",
+                (item_id, owner),
+            ).fetchone()
+        if row is None:
+            return jsonify({"error": "not found", "code": "NOT_FOUND"}), 404
+        item = _mail_sub_row_to_dict(row)
+        scope = _write_mail_scope_from_item(item, owner)
+        scope_path = _MAIL_SCOPE_DIR / f"{item_id}.json"
+        return jsonify({
+            "scope": scope,
+            "scope_path": str(scope_path.relative_to(BASE_DIR)),
+            "index_path": str((_MAIL_SCOPE_DIR / "scopes_index.json").relative_to(BASE_DIR)),
+        })
+    except Exception as e:
+        logger.error("mail_sub_scope 실패: %s", e, exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 

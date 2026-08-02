@@ -26,6 +26,38 @@ export interface MailSubscriptionInput {
   active?: boolean;
 }
 
+export interface DashboardMailScope {
+  subscription_id: string;
+  name: string;
+  owner_email: string;
+  recipients: string[];
+  keywords: string[];
+  companies: string[];
+  brands: string[];
+  aliases: Record<string, string[]>;
+  disease_areas: string[];
+  policy_topics: string[];
+  media: string[];
+  custom_sources: string[];
+  forwarded_input_paths: string[];
+  personas: string[];
+  lookback_hours: number;
+  delivery_mode: 'gmail_draft' | 'gmail_send' | 'preview_only' | string;
+  schedule: 'Daily' | 'Weekly';
+  time: string;
+  week_day: string | null;
+  active: boolean;
+  include_top_ma_signals: boolean;
+  include_user_keyword_watchlist: boolean;
+  updated_at: string;
+}
+
+export interface MailScopeResponse {
+  scope: DashboardMailScope;
+  scope_path: string;
+  index_path: string;
+}
+
 export interface MailSubListResponse {
   items: MailSubscription[];
   smtp_configured: boolean;
@@ -71,6 +103,10 @@ export interface MailPreview {
 
 export async function previewMailSubscription(id: number): Promise<MailPreview> {
   return api.post<MailPreview>(`/api/mail-subscriptions/${id}/preview`, {});
+}
+
+export async function exportMailSubscriptionScope(id: number): Promise<MailScopeResponse> {
+  return api.get<MailScopeResponse>(`/api/mail-subscriptions/${id}/scope`);
 }
 
 export async function previewAdHoc(name: string, keywords: string[], media: string[]): Promise<MailPreview> {
