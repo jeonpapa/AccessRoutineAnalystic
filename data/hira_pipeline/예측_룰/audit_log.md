@@ -3,6 +3,23 @@
 > **자동 갱신 주기**: 매 차수 D+1 09:00
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
+## 2026-08-04 15:30 KST — 8차 약평위 D-2 사전 검토 baseline 발행
+
+- 점검일: 2026-08-04 KST 15:30 (대상: 2026-08-06 제8차 약제급여평가위원회 D-2)
+- 공식 일정 판단: audit/project calendar fallback 기준 8차 약평위 2026-08-06 → D-2 active. 7차 암질심 2026-08-19 → D-15, 발행 대상 아님.
+- 공식 HIRA list evidence: page 1 최신은 일반 보도자료 11870~11861. helper find는 약평위·암질심 현재 페이지 0건. 직접 pageIndex=1~15 pagination에서 최신 기등록 위원회 결과는 11847(6차 암질심), 11844(7차 약평위)로 확인. 8차 약평위 결과는 아직 미게시.
+- Leadership artifact: `data/hira_pipeline/보고서/D-2_사전_예측/2026-08-04_yakpyungwi-8_d_minus_2.md` + PDF 생성 대상.
+- D+1 baseline 후보(leadership PDF 비노출):
+  - HIGH: 사이람자(라무시루맙, 한국릴리) — PR-005 적용 후보. 1차 암질심 후 장기 대기, 6·7차 미진입. RSA 계약 여부/결정신청 트랙 구분이 핵심 불확실성.
+  - HIGH: 엘라히어(미르베툭시맙, 한국애브비) — PR-005 적용 후보. 5차 암질심 후 8차 전환 가능성. D-2 공개 매체 신호는 강하지 않음.
+  - HIGH: 버제니오(아베마시클립, 한국릴리) — PR-005 + PR-002 맥락. 5차 암질심 후 조기 유방암 보조요법 전환 가능성.
+  - MEDIUM: 옵디보+여보이 간세포암 — PR-NEW-RSA-001/면역항암 병용 read-through 후보. 공개 신청 신호 제한.
+  - WATCH: 비항암·희귀 결정신청 및 RSA 확대 품목 — 7차 FN 보정용 category watch.
+- 불확실성: 공식 사전 안건 비공개. D-2 시점 신규 결과 보도 없음. D+1에서 ON_AGENDA 여부와 결과표 표현(급여 적정성 있음/평가금액 이하 수용 시 적정/급여 확대 적정)을 반드시 대조.
+- 품질 loop: accepted 7차 약평위 D-2 skeleton parity 적용. Leadership PDF에는 rule_id/precision/recall/brdBltNo/repo path/manifest/hash/cron 등 내부 메타를 넣지 않음.
+
+---
+
 ## 2026-08-03 02:00 KST — DAILY CRAWL (no new) ⚑ 8차 약평위 D-3 / 7차 암질심 D-16
 
 - 점검일: 2026-08-03 (대상: 약평위·암질심 신규 보도자료, 오늘 ±1일 매체 신호)
