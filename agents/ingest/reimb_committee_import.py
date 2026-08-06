@@ -49,6 +49,7 @@ MISSING_SESSIONS = [
     (2025, 9, 9, "2025-12-10", "AMJILSIM", "HIRA brdBltNo=11684 — 9차 암질심 (웰리렉 미설정·뉴베카·옥타이로·테빔브라 5적응증 설정)"),
     (2026, 7, 7, "2026-07-02", "YAKPYUNGWI", "HIRA brdBltNo=11844 — 7차 약평위 (엑스코프리·넴루비오 조건부·스프라바토·팁소보·옥스루모 + 카보메틱스·크리스비타·린파자 확대)"),
     (2026, 6, 6, "2026-07-08", "AMJILSIM", "HIRA brdBltNo=11847 — 6차 암질심 (림카토·DCEP 설정, 퍼제타 재논의)"),
+    (2026, 8, 8, "2026-08-06", "YAKPYUNGWI", "HIRA brdBltNo=11871 — 8차 약평위 (하임파지프리필드펜주 150mg/mL 조건부)"),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -96,6 +97,9 @@ SESSION_STATUS_UPDATES: list[tuple[str, str, str]] = [
      "7차 약평위 — 결정신청 5개 품목 및 위험분담계약 약제 사용범위 확대 3개 품목 심의결과 공개 (HIRA brdBltNo=11844)."),
     ("2026-07-08", "COMPLETED",
      "6차 암질심 — 림카토주·DCEP 급여기준 설정, 퍼제타주 재논의 심의결과 공개 (HIRA brdBltNo=11847)."),
+    ("2026-08-06", "COMPLETED",
+     "8차 약평위 — 결정신청 약제 하임파지프리필드펜주 150mg/mL 심의결과 공개: "
+     "평가금액 이하 수용시 급여의 적정성이 있음 (HIRA brdBltNo=11871)."),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -637,6 +641,21 @@ D(brand_kr="크리스비타주사액", ingredient_inn="burosumab", manufacturer=
   events=[dict(committee="YAKPYUNGWI", state="APPROVED",
                session_date="2026-07-02", n_th_attempt=1,
                evidence_url="HIRA brdBltNo=11844 (7차 약평위 RSA 확대 통과)")])
+
+# ── (E3) 2026-08-06 8차 약평위 통과 — HIRA brdBltNo=11871 (공식) ─────────────
+# 결정신청 약제 1품목.
+D(brand_kr="하임파지프리필드펜주 150mg/mL", ingredient_inn="marstacimab", manufacturer="한국화이자제약",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-08-06",
+  negotiation_status="IN_PROGRESS",
+  indication="35kg 이상인, 다음의 성인 및 소아(12세 이상) 환자에서의 출혈 빈도 감소 또는 예방을 위한 일상적인 예방요법: "
+             "혈액응고 제8인자(FVIII)에 대한 억제인자를 보유하지 않은 중증 A형 혈우병(선천성 제8인자 결핍), "
+             "또는 혈액응고 제9인자(FIX)에 대한 억제인자를 보유하지 않은 중증 B형 혈우병(선천성 제9인자 결핍)",
+  listing_type="신규",
+  notes="8차 약평위(2026-08-06 HIRA brdBltNo=11871) 결정신청 약제 — 평가금액 이하 수용시 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-08-06", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11871 (8차 약평위 조건부 통과)")])
 
 # ── (F) HIRA 보도자료 크롤로 확인된 누락 종양 약제 (2025 암질심·약평위 in-progress) ──
 D(brand_kr="뉴베카정", ingredient_inn="darolutamide", manufacturer="바이엘코리아",
