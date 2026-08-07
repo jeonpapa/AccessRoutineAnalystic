@@ -3,6 +3,31 @@
 > **자동 갱신 주기**: 매 차수 D+1 09:00
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
+## 2026-08-07 12:00 KST — 8차 약평위 D+1 결과 리뷰 + prediction learning
+
+- 실행일: 2026-08-07 KST 12:00 (대상: 2026-08-06 제8차 약제급여평가위원회 D+1)
+- 공식 evidence: HIRA 「2026년 제8차 약제급여평가위원회 심의결과 공개」, brdBltNo=11871, detail URL `https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA020041000100&brdScnBltNo=4&brdBltNo=11871&pageIndex=1&pageIndex2=1`
+- 실제 결과: 결정신청 약제 **하임파지프리필드펜주 150mg/mL(마스타시맙, 한국화이자제약)** 1품목. 효능·효과: 35kg 이상 성인 및 소아(12세 이상) 중 억제인자를 보유하지 않은 중증 A형/B형 혈우병 환자의 출혈 빈도 감소 또는 예방을 위한 일상적 예방요법. 결과 문구: **평가금액 이하 수용시 급여의 적정성이 있음**.
+- D-2/D-1 baseline 대조:
+  - HIGH 사이람자(라무시루맙, 한국릴리) — predicted_on_agenda=YES, rule_id=PR-005, confidence=HIGH → actual_on_agenda=NO (**FP**)
+  - HIGH 엘라히어(미르베툭시맙, 한국애브비) — predicted_on_agenda=YES, rule_id=PR-005, confidence=HIGH → actual_on_agenda=NO (**FP**)
+  - HIGH 버제니오(아베마시클립, 한국릴리) — predicted_on_agenda=YES, rule_id=PR-005+PR-002 context, confidence=HIGH → actual_on_agenda=NO (**FP**)
+  - MEDIUM 옵디보+여보이 간세포암 — predicted_on_agenda=YES/WATCH, rule_id=PR-NEW-RSA-001/면역항암 병용 context, confidence=MEDIUM → actual_on_agenda=NO (**FP-lite / watch 유지**)
+  - WATCH 비항암·희귀 결정신청 category — category_on_agenda=YES but specific drug not identified. 하임파지프리필드펜주 specific candidate was missing (**FN at product level**).
+- Metrics (specific candidate 기준): TP=0, FP=4, FN=1, precision=0.00, recall=0.00, F1=0.00. Category-level watch를 인정해도 product-specific agenda prediction은 실패.
+- Root cause:
+  1. PR-005가 암질심 통과 후 약평위 transition 후보를 과가중했다. 특히 사이람자는 장기 대기 자체만으로 HIGH를 유지했으나 8차에도 미상정되어 대기기간 단독 신호의 한계가 재확인됨.
+  2. 엘라히어·버제니오도 5차 암질심 이후 실제 경평소위 통과/회사 신청/가격수용 신호 없이 HIGH로 유지되어 confidence inflation 발생.
+  3. 비oncology scope는 category watch로는 존재했지만 혈우병 예방요법·희귀질환 신약의 product-level source registry가 부족해 하임파지를 사전 후보로 식별하지 못함.
+  4. 단일 품목 약평위 차수 가능성(committee capacity 또는 price-ready product만 공개)을 후보 scoring에 반영하지 못함.
+- Rule adjustments:
+  - PR-005: weight 0.55 → 0.50, fp_count 2 → 5, last_calibrated=2026-08-07. 다음 차수부터 암질심 통과 후 대기기간만으로 HIGH 금지. `경평소위 통과`, `회사 결정신청/급여신청`, `가격수용/협상 readiness`, `최근 30일 body-verified 기사` 중 1개 이상 필요.
+  - PR-NEW-RSA-001: 옵디보+여보이는 watch로 유지하되, RSA 확대 신청 또는 공식 급여범위 확대 신청 신호 없는 경우 YES가 아니라 WATCH로 제한.
+  - 신규 후보 룰 PR-NEW-007 생성: 비oncology 희귀질환/혈액질환 예방요법 결정신청 제품 registry를 D-30~D-7에 별도 검색. 혈우병, 중증근무력증, 신경·희귀·소아질환, 장기 예방요법 키워드와 MFDS 허가·회사 보도자료·환자단체 급여요구를 연결하되, product-level 후보명 확인 전까지 confidence는 MEDIUM 이하.
+- Leadership artifact: `data/hira_pipeline/보고서/D+1_결과_리뷰/2026-08-07_yakpyungwi-8_d_plus_1.md` + PDF. Leadership report에는 TP/FP/FN, rule_id, brdBltNo, repo/manifest/hash/cron mechanics 미노출.
+
+---
+
 ## 2026-08-06 02:00 KST — DAILY CRAWL ⚑ **8차 약평위 당일** / 7차 암질심 D-13 — 하임파지 조건부 통과 신호 확인 (매체 단일, body verify 불가)
 
 - 점검일: 2026-08-06 (대상: 약평위·암질심 신규 보도자료, 오늘 ±1일 매체 신호)
