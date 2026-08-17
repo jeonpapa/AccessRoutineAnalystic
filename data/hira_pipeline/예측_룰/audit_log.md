@@ -4,6 +4,23 @@
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
 
+## 2026-08-17 15:36 KST — D-2 PUBLISHER ⚑ 7차 암질심 D-2 사전 검토 보고 발행
+
+- 실행일: 2026-08-17 KST 15:36 (대상: 2026-08-19 제7차 중증(암)질환심의위원회 D-2)
+- Git guard: canonical checkout `/opt/data/AccessRoutineAnalystic` had unrelated dirty `daily_mailing/scopes/14.json`; full fresh clone timed out with fetch-pack disconnect; sparse fresh clone from `origin/main` at `7ac13f1b0b486c40f54211218f4cca47c238a4df` used for scheduled scope only.
+- Calendar gate: 2026-08-19 제7차 암질심 = D-2 active. 2026-09-03 제9차 약평위 = D-17, not this publisher target.
+- Official HIRA check: page 1 latest relevant result remained `11871` 2026년 제8차 약제급여평가위원회; direct pages 1~15 recovered already-represented `11847` 2026년 제6차 중증(암)질환심의위원회 and `11844` 2026년 제7차 약제급여평가위원회. No newer 암질심 result post existed before the 8/19 meeting.
+- D-2 leadership artifact created: `data/hira_pipeline/보고서/D-2_사전_예측/2026-08-17_amjilsim-7_d_minus_2.md` + PDF.
+- Baseline candidates for D+1 comparison:
+  1. 임델트라(탈라타맙, 암젠코리아) — predicted_on_agenda=YES, confidence=HIGH. Rationale: repeated public media signal on 7차 암질심 재상정, SCLC unmet need, patient/public-petition pressure, GIFT-to-reimbursement gap discussion. Key uncertainty: 공식 안건 통보 not public; OS/economic evidence sufficiency uncertain.
+  2. 퍼제타주(퍼투주맙, 한국로슈) — predicted_on_agenda=YES/WATCH, confidence=MEDIUM. Rationale: 6차 암질심 official `재논의`; possible short-cycle supplement. Key uncertainty: 보완자료 제출/재신청 public signal weak.
+  3. 티루캡정(카피바설팁, 한국아스트라제네카) — predicted_on_agenda=WATCH, confidence=LOW-MEDIUM. Rationale: previous 미설정 queue, HR+/HER2- targeted therapy watch. Key uncertainty: recent resubmission signal not verified.
+  4. broader breast/combination oncology candidates — category_watch only, not product-level YES. Use only for read-through if they appear.
+- Rule hooks for private calibration only: PR-102 (암질심 미설정 보완자료 단기재상정), PR-NEW-AMJ-001 (public pressure/unmet need limit), PR-NEW-AMJ-003 (existing regimen/기준 신설), PR-NEW-RSA-001 watch for downstream 약평위/RSA read-through. Leadership PDF deliberately excludes rule IDs, TP/FP/FN, brdBltNo, repo/manifest/hash mechanics.
+- Next D+1 comparison target: 2026-08-20 after official 7차 암질심 result publication window; compare actual_on_agenda and official result wording against the three product-level candidates above.
+
+---
+
 ## 2026-08-16 02:00 KST — DAILY CRAWL (no new) ⚑ 7차 암질심 D-3 / 9차 약평위 D-18
 
 - 점검일: 2026-08-16 (일요일) (대상: 약평위·암질심 신규 보도자료, 오늘 ±1일 매체 신호)
