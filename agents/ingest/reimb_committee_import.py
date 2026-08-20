@@ -50,6 +50,7 @@ MISSING_SESSIONS = [
     (2026, 7, 7, "2026-07-02", "YAKPYUNGWI", "HIRA brdBltNo=11844 — 7차 약평위 (엑스코프리·넴루비오 조건부·스프라바토·팁소보·옥스루모 + 카보메틱스·크리스비타·린파자 확대)"),
     (2026, 6, 6, "2026-07-08", "AMJILSIM", "HIRA brdBltNo=11847 — 6차 암질심 (림카토·DCEP 설정, 퍼제타 재논의)"),
     (2026, 8, 8, "2026-08-06", "YAKPYUNGWI", "HIRA brdBltNo=11871 — 8차 약평위 (하임파지프리필드펜주 150mg/mL 조건부)"),
+    (2026, 7, 7, "2026-08-19", "AMJILSIM", "HIRA brdBltNo=11882 — 7차 암질심 (브렌랩주 일부 설정·일부 미설정, 보라니고정·브루킨사캡슐 설정, Docetaxel+Trastuzumab 미설정)"),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -100,6 +101,9 @@ SESSION_STATUS_UPDATES: list[tuple[str, str, str]] = [
     ("2026-08-06", "COMPLETED",
      "8차 약평위 — 결정신청 약제 하임파지프리필드펜주 150mg/mL 심의결과 공개: "
      "평가금액 이하 수용시 급여의 적정성이 있음 (HIRA brdBltNo=11871)."),
+    ("2026-08-19", "COMPLETED",
+     "7차 암질심 — 브렌랩주 보르테조밉·덱사메타손 병용요법, 보라니고정, 브루킨사캡슐 급여기준 설정; "
+     "브렌랩주 포말리도마이드·덱사메타손 병용요법 및 Docetaxel+Trastuzumab은 급여기준 미설정 (HIRA brdBltNo=11882)."),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -144,6 +148,16 @@ KEY_ISSUES: dict[str, list[str]] = {
     ],
     "림카토주": [
         "국산 1호 CAR-T — 5/27 암질심 미설정 후 7/8 6차 암질심에서 급여기준 설정 (HIRA brdBltNo=11847)",
+    ],
+    "브렌랩주": [
+        "7차 암질심에서 재발/불응성 다발골수종 2개 병용요법 중 보르테조밉·덱사메타손 병용요법은 급여기준 설정, 포말리도마이드·덱사메타손 병용요법은 급여기준 미설정 (HIRA brdBltNo=11882)",
+        "동일 품목 내 병용요법별 split decision — 다발골수종 후속 차수 모니터링 필요",
+    ],
+    "보라니고정": [
+        "IDH1/IDH2 변이 2등급 성상세포종 또는 희돌기교종 치료에서 7차 암질심 급여기준 설정 (HIRA brdBltNo=11882)",
+    ],
+    "브루킨사캡슐": [
+        "CLL/SLL 1차 단독요법에서 7차 암질심 급여기준 설정 (HIRA brdBltNo=11882)",
     ],
 }
 
@@ -849,6 +863,44 @@ D(brand_kr="타그리소 확대", ingredient_inn="osimertinib", manufacturer="�
   events=[dict(committee="AMJILSIM", state="REJECTED_REQUEUE", session_date=None,
                queue_entry_date="2024-11-13", n_th_attempt=1,
                evidence_url="2024-11-13 8차 암질심 미설정 (매체 보도)")])
+
+# 7차 암질심 2026-08-19 (HIRA brdBltNo=11882) — 공식 보도자료 직접 전사
+D(brand_kr="브렌랩주", ingredient_inn="belantamab mafodotin", manufacturer="(주)글락소스미스클라인",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date="2026-08-19", negotiation_status="IN_PROGRESS",
+  indication="재발 또는 불응성 다발골수종의 치료 — 이전에 한 가지 이상의 치료를 받은 성인 다발골수종 환자에서 보르테조밉 및 덱사메타손과의 병용요법(급여기준 설정); 레날리도마이드를 포함하여 이전에 한 가지 이상의 치료를 받은 성인 다발골수종 환자에서 포말리도마이드 및 덱사메타손과의 병용요법(급여기준 미설정)",
+  listing_type="신규",
+  notes="7차 암질심(2026-08-19 HIRA brdBltNo=11882) split decision: 보르테조밉 및 덱사메타손 병용요법은 급여기준 설정, 포말리도마이드 및 덱사메타손 병용요법은 급여기준 미설정.",
+  events=[
+      dict(committee="AMJILSIM", state="APPROVED", session_date="2026-08-19", n_th_attempt=1,
+           evidence_url="HIRA brdBltNo=11882 (7차 암질심 급여기준 설정: 보르테조밉 및 덱사메타손 병용요법)"),
+      dict(committee="AMJILSIM", state="REJECTED_REQUEUE", session_date="2026-08-19", n_th_attempt=1,
+           evidence_url="HIRA brdBltNo=11882 (7차 암질심 급여기준 미설정: 포말리도마이드 및 덱사메타손 병용요법)"),
+  ])
+D(brand_kr="보라니고정", ingredient_inn="vorasidenib citrate", manufacturer="한국세르비에(주)",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date="2026-08-19", negotiation_status="IN_PROGRESS",
+  indication="생검(biopsy), 대부분 절제(sub-total resection) 또는 완전 절제(gross total resection)를 포함하는 수술 후 40kg 이상의 12세 이상 소아 및 성인의 IDH1 변이 혹은 IDH2 변이가 있는 2등급의 성상세포종 또는 희돌기교종의 치료",
+  listing_type="신규",
+  notes="7차 암질심(2026-08-19 HIRA brdBltNo=11882) 급여기준 설정.",
+  events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2026-08-19", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11882 (7차 암질심 급여기준 설정)")])
+D(brand_kr="Docetaxel + Trastuzumab", ingredient_inn="docetaxel+trastuzumab", manufacturer="-",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date=None, negotiation_status=None,
+  indication="HER2 양성 침샘도관암",
+  listing_type="확대",
+  notes="7차 암질심(2026-08-19 HIRA brdBltNo=11882) 급여기준 확대 안건에서 급여기준 미설정.",
+  events=[dict(committee="AMJILSIM", state="REJECTED_REQUEUE", session_date="2026-08-19", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11882 (7차 암질심 급여기준 미설정)")])
+D(brand_kr="브루킨사캡슐", ingredient_inn="zanubrutinib", manufacturer="비원메디슨코리아(유)",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date="2026-08-19", negotiation_status="IN_PROGRESS",
+  indication="만 65세 이상 또는 동반질환이 있는 만 65세 미만의 이전에 치료를 받은 적이 없는 만성 림프구성 백혈병(CLL) 또는 소 림프구성 림프종(SLL) 성인 환자에서의 단독요법",
+  listing_type="확대",
+  notes="7차 암질심(2026-08-19 HIRA brdBltNo=11882) 급여기준 설정.",
+  events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2026-08-19", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11882 (7차 암질심 급여기준 설정)")])
 
 
 # ──────────────────────────────────────────────────────────────────────────────
