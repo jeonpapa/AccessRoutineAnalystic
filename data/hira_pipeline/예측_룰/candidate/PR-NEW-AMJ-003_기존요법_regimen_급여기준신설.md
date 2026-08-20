@@ -4,9 +4,9 @@
 |---|---|
 | status | CANDIDATE |
 | committee | AMJILSIM |
-| current_weight | 0.50 |
-| last_updated | 2026-07-09 |
-| seed_case | DCEP 병용요법 2026-07-08 6차 암질심 급여기준 설정 |
+| current_weight | 0.55 |
+| last_updated | 2026-08-20 |
+| seed_case | DCEP 병용요법 2026-07-08 6차 암질심 급여기준 설정; 브렌랩주 split regimen 및 Docetaxel+Trastuzumab 2026-08-19 7차 암질심 |
 
 ## 룰 가설
 
@@ -24,6 +24,8 @@
 | 회의 | regimen | 실제 결과 | 분류 |
 |---|---|---|---|
 | 2026-07-08 6차 암질심 | DCEP | 재발성 또는 불응성 다발골수종 급여기준 설정 | FN seed |
+| 2026-08-19 7차 암질심 | 브렌랩주 split regimen | 보르테조밉+덱사메타손 설정 / 포말리도마이드+덱사메타손 미설정 | FN product/regimen |
+| 2026-08-19 7차 암질심 | Docetaxel + Trastuzumab | HER2 양성 침샘도관암 급여기준 미설정 | FN regimen 확대 |
 
 ## 적용 주의
 

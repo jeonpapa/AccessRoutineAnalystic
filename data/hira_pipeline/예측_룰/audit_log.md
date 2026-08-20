@@ -4,6 +4,38 @@
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
 
+## 2026-08-20 12:00 KST — 7차 암질심 D+1 결과 리뷰 + prediction learning
+
+- 실행일: 2026-08-20 KST 12:00 (대상: 2026-08-19 제7차 중증(암)질환심의위원회 D+1)
+- Git guard: canonical checkout `/opt/data/repos/AccessRoutineAnalystic_fresh` had unrelated dirty API/dashboard/daily-mailing/report work and diverged from `origin/main`; disposable sparse clone at `origin/main=0c0629b` used for scheduled scope only.
+- 공식 evidence: HIRA 「2026년 제7차 중증(암)질환심의위원회 심의결과 공개」, brdBltNo=11882, detail URL `https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA020041000100&brdScnBltNo=4&brdBltNo=11882&pageIndex=1&pageIndex2=1`.
+- 실제 결과:
+  - 브렌랩주(벨란타맙 마포도틴, GSK) — 보르테조밉+덱사메타손 병용요법: **급여기준 설정**.
+  - 브렌랩주(벨란타맙 마포도틴, GSK) — 포말리도마이드+덱사메타손 병용요법: **급여기준 미설정**.
+  - 보라니고정(보라시데닙 시트르산, 한국세르비에) — IDH1/IDH2 변이 2등급 glioma 수술 후 population: **급여기준 설정**.
+  - Docetaxel + Trastuzumab — HER2 양성 침샘도관암: **급여기준 미설정**.
+  - 브루킨사캡슐(자누브루티닙, 비원메디슨코리아) — CLL/SLL 1차 단독요법 population: **급여기준 설정**.
+- D-2/D-1 baseline 대조:
+  - 임델트라(탈라타맙, 암젠코리아) — predicted_on_agenda=YES, confidence=HIGH, rule hooks=PR-NEW-AMJ-001/PR-102 context → actual_on_agenda=NO (**FP**). Public pressure와 반복 매체 관심만으로 high-confidence 상정 예측한 오류 재발.
+  - 퍼제타주(퍼투주맙, 한국로슈) — predicted_on_agenda=YES/WATCH, confidence=MEDIUM, rule hook=PR-102 → actual_on_agenda=NO (**FP-lite**). 직전 `재논의`만으로 단기 재상정 가능성을 높였으나 보완자료 제출/재신청 신호가 없었다.
+  - 티루캡정(카피바설팁, 한국아스트라제네카) — predicted_on_agenda=WATCH, confidence=LOW-MEDIUM → actual_on_agenda=NO (**watch negative; metric상 FP로 포함**).
+  - 브렌랩주·보라니고정·Docetaxel+Trastuzumab·브루킨사캡슐 → D-2 product-level 예측 미포함 (**FN=4**). 특히 브렌랩주는 같은 품목 내 regimen split decision으로, product-only watchlist가 부족함을 확인.
+- Metrics (specific candidate 기준): TP=0, FP=3, FN=4, precision=0.00, recall=0.00, F1=0.00. Category/regimen watch를 일부 인정하더라도 product-specific agenda prediction은 실패.
+- Root cause:
+  1. 임델트라에 대해 public pressure/unmet need 신호를 실제 보완자료·재신청·구체 차수 확인보다 과가중했다. PR-NEW-AMJ-001이 이미 경고한 한계를 D-2 보고서에서 충분히 적용하지 못했다.
+  2. 퍼제타주는 6차 `재논의` 이후 보완자료 제출 public signal이 약했는데도 short-cycle resubmission 가능성을 MEDIUM으로 유지했다. PR-102는 `보완자료+재신청 준비`가 함께 확인될 때만 적용해야 한다.
+  3. 신약/재상정 후보 중심 탐색이 다발골수종 ADC, IDH glioma, CLL/SLL, 희귀 침샘도관암 regimen 확대처럼 사전 노출이 적은 oncology product/regimen을 놓쳤다.
+  4. 같은 품목 내 병용요법별 split decision 가능성을 baseline schema가 충분히 담지 못했다.
+- Rule adjustments:
+  - PR-NEW-AMJ-001: current_weight 0.50 → 0.45, last_updated=2026-08-20. 임델트라 7차 암질심 FP를 추가하고, public pressure/unmet need는 단독으로 YES 승격 금지. `구체 차수 언급`도 단일 보도일 경우 충분조건에서 제외하고 body-verified 복수 신호 또는 회사/공식 재신청 확인을 요구.
+  - PR-102: current_weight 0.70 → 0.65, fp_count 0 → 1, last_updated=2026-08-20. 직전 `재논의`만으로 단기 재상정 confidence를 올리지 말고, 보완자료 제출·재신청·회신 일정 중 1개 이상 body-verified 필요.
+  - PR-NEW-AMJ-003: weight 0.50 → 0.55, evidence_count 1 → 2. DCEP에 이어 Docetaxel+Trastuzumab 및 브렌랩주 split regimen 사례를 추가해 regimen-level/combination-level 탐색을 강화.
+  - 신규 후보 룰 PR-NEW-AMJ-004 생성: 사전 매체 노출이 낮은 oncology 신약·급여기준 확대 품목을 D-30~D-7에 MFDS 허가/국내 도입/학회 guideline/회사 보도자료/source registry 기반으로 product-level 탐색. 다발골수종 ADC, IDH glioma, CLL/SLL targeted therapy, rare salivary duct carcinoma regimen 키워드를 포함.
+- Leadership artifact: `data/hira_pipeline/보고서/D+1_결과_리뷰/2026-08-20_amjilsim-7_d_plus_1.md` + PDF. Leadership report에는 TP/FP/FN, rule_id, brdBltNo, repo/manifest/hash/cron mechanics 미노출.
+- Archive artifact: `data/hira_pipeline/HIRA_보도자료/2026-08-19_암질심_7차.md` created from HIRA official wording.
+
+---
+
 ## 2026-08-19 02:00 KST — DAILY CRAWL ⚑ 7차 암질심 D-day / 9차 약평위 D-15
 
 - 점검일: 2026-08-19 (수요일) — **7차 암질심 당일**
