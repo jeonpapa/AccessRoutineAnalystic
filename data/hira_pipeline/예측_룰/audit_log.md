@@ -2777,3 +2777,12 @@
 | 9차 약평위 D+1 | 2026-09-04 08:00 KST |
 | 8차 암질심 D+1 | 2026-10-01 08:00 KST |
 | 임델트라 재추적 | 다음 암질심 전 body-verified 복수 신호 확인 시 재평가 |
+
+## 2026-08-21 02:00 KST — daily crawl (no new)
+
+- 실행일: 2026-08-21 KST 02:00 (정기 자동 크롤)
+- HIRA 공식 게시판 접근 상태: **egress 차단** (www.hira.or.kr 프록시 블록). WebSearch 간접 확인으로 대체.
+- 의료전문지 WebSearch 결과 (medicaltimes / monews / dailypharm / kpanews / medipana / hitnews / pharmnews): 2026-08-20~21 신규 약평위·암질심 심의결과 보도 **없음**.
+- 기존 최신 아카이브: brdBltNo=11882 (2026-08-19 제7차 암질심) — 변동 없음.
+- 차기 예정 일정 (기존 수집 정보 기준): 9차 약평위 2026-09-04, 8차 암질심 미정.
+- no new
