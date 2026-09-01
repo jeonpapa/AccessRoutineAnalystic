@@ -3029,3 +3029,15 @@
   - **9차 약평위: 2026-09-03 (목) (D-9)** — 림카토 Tier 1 최우선. D-7(8/27)부터 경평소위 신호 탐색 강화 구간.
   - **8차 암질심: 2026-09-30 (추정) (D-36)** — 임델트라 공식 재신청 신호 감시.
 - 다음 활성 daemon 실행: 2026-08-26 02:00 KST (일별 크롤)
+---
+
+## 2026-09-01 15:31 KST — D-1 SUPPLEMENT PUBLISHER ⚑ 9차 약평위 D-1 PDF/manifest 보완
+
+- 실행일: 2026-09-01 15:31 KST / 대상 회의: 2026년 제9차 약제급여평가위원회(2026-09-03, D-2 artifact의 D-1 보완 발행).
+- Git guard: canonical checkout had unrelated dirty daily mailing scope work after fast-forward; disposable sparse clone at origin/main=65ac81f used for scheduled scope only.
+- 공식 evidence: HIRA page 1 contained only general items through 11893; direct pagination recovered already-represented latest 암질심 11882 on page 2 and 약평위 11871 on page 3. Detail checks verified 11882 브렌랩/보라니고/브루킨사 and 11871 하임파지/마스타시맙/평가금액 이하 수용 시 적정 wording. No new committee result before 9차 meeting.
+- Leadership artifact action: existing 2026-08-31 9차 약평위 D-2 markdown was template-repaired to accepted 약평위 D-2 skeleton, PDF generated, and reports manifest rebuilt.
+- D+1 baseline candidates preserved privately: 사이람자 HIGH, 엘라히어 HIGH, 버제니오 MEDIUM, 옵디보+여보이 MEDIUM, 비항암 희귀질환/RSA 운영 안건 WATCH.
+- Rule hooks for D+1 comparison: PR-005/PR-NEW-AMJ-004/PR-NEW-006/PR-NEW-007 plus condition-wording tracking; product-level and regimen-level inclusion must be scored separately after official 9차 result.
+- Leadership PDF boundary: no rule IDs/metrics/crawler/hash/repo mechanics included in the PDF; those remain in this operational audit entry.
+
