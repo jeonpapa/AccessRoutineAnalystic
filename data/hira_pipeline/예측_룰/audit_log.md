@@ -3120,3 +3120,12 @@
 - Rule hooks for D+1 comparison: PR-005/PR-NEW-AMJ-004/PR-NEW-006/PR-NEW-007 plus condition-wording tracking; product-level and regimen-level inclusion must be scored separately after official 9차 result.
 - Leadership PDF boundary: no rule IDs/metrics/crawler/hash/repo mechanics included in the PDF; those remain in this operational audit entry.
 
+
+---
+## 2026-09-03 08:00 KST — D+1 데몬 실행 (IDLE PASS)
+
+- 실행 트리거: 매일 08:00 KST 자동 발사
+- Step (1) 체크: 어제(2026-09-02)가 약평위/암질심 차수인지 확인 → **아님**
+- 약평위 9/3차: 오늘(2026-09-03) 개최 예정
+- 결론: IDLE PASS — 메일 없음, 보고서 작성 없음
+- 다음 실행: 2026-09-04 08:00 KST → 약평위 9/3차 D+1 결과 리뷰 수행 예정
