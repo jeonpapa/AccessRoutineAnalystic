@@ -3,17 +3,17 @@ rule_id: PR-NEW-RSA-001
 name: "기존 RSA 계약 약제 사용범위 확대 신청 → 약평위 RSA 확대 안건"
 category: 안건_예측
 established_at: 2026-07-03
-last_calibrated: 2026-07-03
-evidence_count: 3
-weight: 0.72
-tp_count: 3
+last_calibrated: 2026-09-04
+evidence_count: 4
+weight: 0.74
+tp_count: 4
 fp_count: 0
 condition: |
   건강보험 위험분담계약(RSA)을 이미 체결한 약제가 새 적응증·용법·대상 환자군으로
   사용범위 확대를 신청하면 약평위 RSA 확대 심의 안건으로 상정되는 패턴.
 prediction: "RSA 확대 신청 보도 + 약평위 일정 도래 시 안건 상정 가능성 ↑ (결정신청 트랙보다 빠름)"
 status: CANDIDATE
-승격_조건: "TP 2회 더 추가 → ACTIVE 승격 (현재 3건, 6차 티쎈트릭 포함 계산 필요)"
+승격_조건: "TP 1회 더 추가 → ACTIVE 승격 검토 (현재 4건, 9차 옵디보/옵디보+여보이 포함)"
 관련_룰: "PR-006 (PD-L1 subpopulation RSA layer) — 본 룰의 PD-L1 특수케이스"
 ---
 
@@ -62,6 +62,7 @@ HIRA: 검토 (경평소위 없이 빠른 경우도 있음)
 | **티쎈트릭주** (아테졸리주맙) | 5차 약평위 (2026-05-07) | PD-L1 ≥50%, 초기 NSCLC adjuvant RSA 확대 | 11793 |
 | **카보메틱스정** (카보잔티닙) | 7차 약평위 (2026-07-02) | 전이성·재발성 투명 신세포암 1차 실패 후 RSA 확대 | 11844 |
 | **린파자정** (올라파립) | 7차 약평위 (2026-07-02) | HRD 양성 난소암 베바시주맙 병용 유지요법 RSA 확대 | 11844 |
+| **옵디보주 / 옵디보주+여보이주** | 9차 약평위 (2026-09-03) | ESCC 1차 및 HCC 1차 RSA 사용범위 확대 적정; MPM 1차는 확대 미적정 | 11898 |
 
 ※ 크리스비타(7차, FGF23 관련 구루병 성인 확대)도 RSA 확대 가능성 높으나 RSA 계약 여부 재확인 필요.
 
@@ -85,7 +86,7 @@ HIRA: 검토 (경평소위 없이 빠른 경우도 있음)
 | 약물 | 현행 RSA 적응증 | 확대 후보 | 상태 |
 |---|---|---|---|
 | 키트루다 (pembrolizumab) | 다수 적응증 RSA | 신규 적응증 추가 | 지속 추적 |
-| 옵디보 (nivolumab) | 여러 RSA 적응증 | 간세포암·폐암 병용 확대 | 추적 |
+| 옵디보 (nivolumab) | 여러 RSA 적응증 | 식도암·간세포암·흉막중피종 등 적응증별 확대 | 9차 일부 적정/일부 미적정 후 재추적 |
 | 아바스틴 (bevacizumab) | 여러 암종 RSA | — | 모니터링 |
 | 엑스탄디 (enzalutamide) | 전립선암 RSA | — | 모니터링 |
 | 린파자 | 난소암 RSA (7차 확대 통과) | 추가 확대 가능성 | 완료 후 재추적 |
@@ -100,10 +101,16 @@ PR-006 (PD-L1 subpopulation + RSA layer)은 본 룰(PR-NEW-RSA-001)의 **면역�
 두 룰이 동시에 해당하면 weight 합산 (cap 0.95):
 `final_weight = min(0.95, PR-NEW-RSA-001.weight + PR-006.weight)`
 
+## 2026-09-04 보정 — 9차 약평위 RSA 확대 split decision
+
+- 옵디보 ESCC 1차 및 옵디보+여보이 HCC 1차는 급여범위 확대 적정, 옵디보+여보이 MPM 1차는 급여범위 확대 미적정으로 확인됐다.
+- weight 0.72 → 0.74, tp_count 3 → 4, evidence_count 3 → 4.
+- split_decision_guard 추가: 면역항암 RSA 확대는 product-pair 단위가 아니라 `product × indication × line` 단위로 예측·검증한다. 한 적응증 TP가 다른 적응증의 적정성을 보증하지 않는다.
+
 ## CANDIDATE → ACTIVE 승격 조건
 
-- **현재 TP**: 3건 (티쎈트릭·카보메틱스·린파자)
-- **승격 기준**: TP 2회 추가 → ACTIVE 승격 → weight 0.72 → 0.77
+- **현재 TP**: 4건 (티쎈트릭·카보메틱스·린파자·9차 옵디보/옵디보+여보이)
+- **승격 기준**: TP 1회 추가 → ACTIVE 승격 검토 → weight 0.74 → 0.77
 - **폐기 기준**: FP 3회 → 폐기
 - **weight 자동 조정**: TP +0.02, FP −0.05
 

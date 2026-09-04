@@ -3,11 +3,11 @@ rule_id: PR-NEW-007
 name: "비oncology 희귀·혈액질환 장기 예방요법 결정신청 → 약평위 단일 안건 가능성"
 category: 안건_예측
 established_at: 2026-08-07
-last_calibrated: 2026-08-07
-evidence_count: 1
-weight: 0.58
+last_calibrated: 2026-09-04
+evidence_count: 4
+weight: 0.63
 tp_count: 0
-fn_count: 1
+fn_count: 4
 fp_count: 0
 condition: |
   혈우병, 중증근무력증, 신경·희귀·소아질환 등 비oncology 희귀질환에서 장기 예방요법 또는 maintenance therapy 성격의
@@ -35,7 +35,8 @@ status: CANDIDATE
 D-30~D-7 검색 bucket:
 - 혈우병 신약 급여 / 혈우병 예방요법 급여 / 마스타시맙 급여 / 하임파지 약평위
 - 희귀질환 신약 급여 적정성 / 소아 희귀질환 약평위 / 예방요법 결정신청
-- 중증근무력증 신약 급여 / 신경희귀질환 급여 / 장기 예방요법 약가
+- 전신 중증근무력증 신약 급여 / FcRn 급여 / 보체 C5 급여 / 신경희귀질환 급여 / 장기 예방요법 약가
+- 만성 손 습진 급여 / 국소 JAK 억제제 급여 / 피부 희귀·난치질환 약평위
 - 회사명 + 제품명 + 급여신청 / 경평소위 / 평가금액 / 약평위
 ```
 
@@ -53,3 +54,9 @@ D-30~D-7 검색 bucket:
 - 하임파지 FN으로 rule 생성. 단, 이번은 사후 생성이므로 tp_count는 0, fn_count는 1로 시작한다.
 - PR-NEW-006은 경평소위 보도 기반 비oncology 룰이고, PR-NEW-007은 희귀·혈액질환 예방요법 product registry 보강 룰로 분리한다.
 - 다음 약평위 D-30~D-7 routine에서 항암 후보 HIGH보다 비oncology product-level source discovery를 병렬 수행한다.
+
+## 2026-09-04 보정
+
+- 9차 약평위에서 비브가트주·질브리스큐프리필드시린지주(전신 중증근무력증)와 앤줍고크림(만성 손 습진)이 product-level 사전 후보에서 누락됐다.
+- evidence_count 1 → 4, fn_count 1 → 4, weight 0.58 → 0.63. 질환 bucket을 혈우병 중심에서 신경희귀/자가면역/피부질환으로 확장한다.
+- 단, product-level 후보명이 확인되지 않은 질환군 신호는 계속 WATCH로 제한하고, MFDS 허가만으로 YES 승격하지 않는다.

@@ -4,6 +4,45 @@
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
 
+## 2026-09-04 12:01 KST — 9차 약평위 D+1 결과 리뷰 + prediction learning
+
+- 실행일: 2026-09-04 KST 12:01 (대상: 2026-09-03 제9차 약제급여평가위원회 D+1)
+- Git guard: canonical checkout `/opt/data/repos/AccessRoutineAnalystic_fresh` had unrelated dirty API/dashboard/daily-mailing/report work and was behind `origin/main`; disposable sparse clone at `origin/main=a5e1590` used for scheduled scope only.
+- 공식 evidence: HIRA 「2026년 제9차 약제급여평가위원회 심의결과 공개」, brdBltNo=11898, detail URL `https://www.hira.or.kr/bbsDummy.do?pgmid=HIRAA020041000100&brdScnBltNo=4&brdBltNo=11898&pageIndex=1&pageIndex2=1`.
+- 실제 결과:
+  - 비브가트주(에프가티지모드알파, 한독) — 전신 중증 근무력증 표준요법 부가요법 — **급여의 적정성이 있음**.
+  - 질브리스큐프리필드시린지주(질루코플란나트륨, 한국유씨비제약) — 전신 중증근무력증 표준요법 부가요법 — **급여의 적정성이 있음**.
+  - 림카토주(안발캅타젠오토류셀, 큐로셀) — r/r DLBCL·PMBCL — **평가금액 이하 수용 시 급여의 적정성이 있음**.
+  - 텍베일리주(테클리스타맙, 한국얀센) — 3차 이상 R/R 다발골수종 — **급여의 적정성이 있음**.
+  - 앤줍고크림(델고시티닙, 레오파마) — 중등도~중증 만성 손 습진 — **급여의 적정성이 있음**.
+  - 프루자클라캡슐(프루퀸티닙, 한국다케다제약) — 전이성 결장직장암 후속치료 — **급여의 적정성이 있음**.
+  - 옵디보주 ESCC 1차 병용 — **급여범위 확대의 적정성이 있음**.
+  - 옵디보주+여보이주 간세포암 1차 — **급여범위 확대의 적정성이 있음**.
+  - 옵디보주+여보이주 악성 흉막중피종 1차 — **급여범위 확대의 적정성이 없음**.
+- D-2/D-1 baseline 대조:
+  - 사이람자(라무시루맙, 한국릴리) — predicted_on_agenda=YES/Tier 1, confidence=HIGH, rule hook=PR-005/long transition lag → actual_on_agenda=NO (**FP**). 장기 대기만으로 high 유지한 오류가 8차에 이어 재확인.
+  - 엘라히어(미르베툭시맙, 한국애브비) — predicted_on_agenda=YES/Tier 1, confidence=HIGH, rule hook=PR-005/희귀 난치성 항암 transition → actual_on_agenda=NO (**FP**). 경평소위·결정신청·가격수용 신호 없이 confidence가 높게 유지됨.
+  - 버제니오(아베마시클립, 한국릴리) — predicted_on_agenda=YES/Tier 1, confidence=HIGH, rule hook=PR-005+PR-002 context → actual_on_agenda=NO (**FP**). OS 근거/장기 보조요법 narrative만으로는 상정 예측 충분조건 아님.
+  - 림카토주(안발캅타젠오토류셀, 큐로셀) — predicted_on_agenda=YES/Tier 2, confidence=MEDIUM-HIGH, rule hook=ATMP/CAR-T transition watch → actual_on_agenda=YES (**TP**). 6차 암질심 설정 후 9차 약평위 조건부 적정으로 전환 확인.
+  - 옵디보+여보이 간세포암 — predicted_on_agenda=YES/WATCH, confidence=MEDIUM, rule hook=PR-NEW-RSA-001/면역항암 병용 context → actual_on_agenda=YES (**TP for HCC expansion**). 단, 동일 조합의 악성 흉막중피종 1차는 확대 미적정으로 split decision.
+  - 비브가트·질브리스큐·텍베일리·앤줍고·프루자클라·옵디보 ESCC 확대 → D-2 product-level 예측 미포함 (**FN=6**). Category watch는 있었으나 product-level registry/search가 부족.
+- Metrics (specific product/expansion candidate 기준): TP=2, FP=3, FN=6, precision=0.40, recall=0.25, F1=0.31. Category-level watch는 일부 방향성이 맞았지만 product-specific agenda prediction은 여전히 낮음.
+- Root cause:
+  1. PR-005가 장기 대기 항암 transition 후보를 충분한 product-level 공개 신호 없이 계속 Tier 1로 유지했다. 8차와 9차 연속 미상정으로 `암질심 통과 후 대기기간` 단독 신호의 예측력은 추가 하향해야 한다.
+  2. 비항암 희귀·자가면역 및 피부질환 결정신청 제품 registry가 약했다. 중증근무력증 2품목과 만성 손 습진 1품목이 모두 사전 product-level 후보에서 누락됐다.
+  3. 다발골수종 후속치료(텍베일리)와 대장암 후속치료(프루자클라)처럼 암질심/이전 archive에 연결점이 있거나 late-line oncology 제품도 9차 후보군에서 빠졌다.
+  4. RSA 확대는 WATCH 수준으로 포착했으나, 옵디보 ESCC와 옵디보+여보이 HCC/MPM을 적응증별로 분리하지 못했다. 병용조합 단위 예측은 split decision 검증에 취약하다.
+- Rule adjustments:
+  - PR-005: current_weight 0.50 → 0.45, fp_count 5 → 8, last_calibrated=2026-09-04. 다음 차수부터 `암질심 통과 후 대기기간`만으로 HIGH 금지. HIGH 승격은 `경평소위 통과`, `결정신청/급여신청`, `회사 가격수용 readiness`, `최근 30일 body-verified 기사` 중 2개 이상 또는 공식/회사 명시 신호 1개 필요.
+  - PR-NEW-007: current_weight 0.58 → 0.63, evidence_count +3. 중증근무력증(비브가트·질브리스큐) 및 만성 손 습진(앤줍고) 사례를 추가하고 D-30~D-7 검색 키워드에 `전신 중증근무력증`, `FcRn`, `보체 C5`, `만성 손 습진`, `국소 JAK`, `신경희귀/자가면역`을 포함.
+  - PR-NEW-AMJ-004: current_weight 0.50 → 0.55, evidence_count +2. 텍베일리(다발골수종)와 프루자클라(전이성 결장직장암) 사례를 추가해 late-line oncology 및 혈액암 제품 registry를 암질심 archive·MFDS 허가·회사 보도자료와 연결.
+  - PR-NEW-RSA-001: current_weight 0.72 → 0.74, tp_count 3 → 4, split_decision_guard 추가. 면역항암 RSA 확대는 product-pair 단위가 아니라 `product × indication × line` 단위로 예측·검증하며, 한 적응증 TP가 다른 적응증 적정성을 보증하지 않도록 함.
+- Leadership artifact: `data/hira_pipeline/보고서/D+1_결과_리뷰/2026-09-04_yakpyungwi-9_d_plus_1.md` + PDF. Leadership report에는 TP/FP/FN, rule_id, brdBltNo, repo/manifest/hash/cron mechanics 미노출.
+- Archive artifact: `data/hira_pipeline/HIRA_보도자료/2026-09-03_약평위_9차.md` upgraded from media fallback to HIRA official brdBltNo=11898 wording.
+- Next checkpoint: 2026-09-30 제8차 암질심 D-2/D+1 루프. 키트루다 재도전 신호는 product-level official/company/media body verification 전까지 leadership PDF에서는 watchlist로만 취급.
+
+---
+
 ## 2026-09-03 02:00 KST — DAILY CRAWL ★ 9차 약평위 D+0 — 신규 archive 1건 적재
 
 - 실행일: 2026-09-03 (목요일) / 대상일: 2026-09-02~09-03 ±1일 신호
