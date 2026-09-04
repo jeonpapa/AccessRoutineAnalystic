@@ -51,6 +51,7 @@ MISSING_SESSIONS = [
     (2026, 6, 6, "2026-07-08", "AMJILSIM", "HIRA brdBltNo=11847 — 6차 암질심 (림카토·DCEP 설정, 퍼제타 재논의)"),
     (2026, 8, 8, "2026-08-06", "YAKPYUNGWI", "HIRA brdBltNo=11871 — 8차 약평위 (하임파지프리필드펜주 150mg/mL 조건부)"),
     (2026, 7, 7, "2026-08-19", "AMJILSIM", "HIRA brdBltNo=11882 — 7차 암질심 (브렌랩주 일부 설정·일부 미설정, 보라니고정·브루킨사캡슐 설정, Docetaxel+Trastuzumab 미설정)"),
+    (2026, 9, 9, "2026-09-03", "YAKPYUNGWI", "HIRA brdBltNo=11898 — 9차 약평위 (비브가트·질브리스큐·텍베일리·앤줍고·프루자클라 적정, 림카토 조건부, 옵디보 ESCC/HCC 확대 적정, 옵디보+여보이 악성 흉막중피종 확대 미적정)"),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -104,6 +105,10 @@ SESSION_STATUS_UPDATES: list[tuple[str, str, str]] = [
     ("2026-08-19", "COMPLETED",
      "7차 암질심 — 브렌랩주 보르테조밉·덱사메타손 병용요법, 보라니고정, 브루킨사캡슐 급여기준 설정; "
      "브렌랩주 포말리도마이드·덱사메타손 병용요법 및 Docetaxel+Trastuzumab은 급여기준 미설정 (HIRA brdBltNo=11882)."),
+    ("2026-09-03", "COMPLETED",
+     "9차 약평위 — 결정신청 약제 비브가트주·질브리스큐프리필드시린지주·텍베일리주·앤줍고크림·프루자클라캡슐 급여의 적정성이 있음, "
+     "림카토주 평가금액 이하 수용 시 급여의 적정성이 있음; 위험분담계약 약제 사용범위 확대에서 옵디보주 ESCC 1차 및 "
+     "옵디보주/여보이주 간세포암 1차는 급여범위 확대의 적정성이 있음, 옵디보주/여보이주 악성 흉막중피종 1차는 급여범위 확대의 적정성이 없음 (HIRA brdBltNo=11898)."),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -158,6 +163,15 @@ KEY_ISSUES: dict[str, list[str]] = {
     ],
     "브루킨사캡슐": [
         "CLL/SLL 1차 단독요법에서 7차 암질심 급여기준 설정 (HIRA brdBltNo=11882)",
+    ],
+    "프루자클라캡슐 1,5밀리그램": [
+        "9차 약평위에서 전이성 결장직장암 후속치료 신약으로 급여의 적정성이 있음 — 항-VEGF/항-EGFR 이후 라인 접근성 및 경쟁 환경 모니터링 필요 (HIRA brdBltNo=11898)",
+    ],
+    "옵디보주": [
+        "9차 약평위에서 ESCC 1차 플루오로피리미딘계·백금 기반 화학요법 병용 RSA 확대 적정 — PD-1/PD-L1 계열 식도암 접근성·가격 환경 read-through 필요 (HIRA brdBltNo=11898)",
+    ],
+    "옵디보 + 여보이": [
+        "9차 약평위에서 간세포암 1차 이필리무맙 병용요법은 급여범위 확대 적정, 악성 흉막중피종 1차 병용요법은 미적정 — 동일 조합 내 적응증별 split decision (HIRA brdBltNo=11898)",
     ],
 }
 
@@ -472,12 +486,15 @@ D(brand_kr="사이람자", ingredient_inn="ramucirumab", manufacturer="한국릴
                evidence_url="매체 보도 — HIRA 본문 미verified")])
 D(brand_kr="옵디보 + 여보이", ingredient_inn="nivolumab+ipilimumab",
   manufacturer="한국오노/BMS", msd_flag=0, tracking_priority="competitor_class",
-  amjilsim_pass_date="2026-04-15", negotiation_status="IN_PROGRESS",
-  indication="간세포암 1차 (간세포암 2차 미설정)", listing_type="확대",
+  amjilsim_pass_date="2026-04-15", yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
+  indication="절제 불가능한 또는 전이성 간세포암의 1차 치료로서 이필리무맙과의 병용 요법", listing_type="확대",
   notes="암질심 4차(2026-04-15 HIRA brdBltNo=11770) 통과. 약평위 미진입 7주. "
-        "후보 차수 7/2 7차·8/6 8차. (간세포암 2차는 미설정)",
+        "후보 차수 7/2 7차·8/6 8차. (간세포암 2차는 미설정) "
+        "9차 약평위(2026-09-03 HIRA brdBltNo=11898) 위험분담계약 약제 사용범위 확대 — 간세포암 1차 이필리무맙 병용요법 급여범위 확대의 적정성이 있음.",
   events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2026-04-15",
-               evidence_url="HIRA brdBltNo=11770")])
+               evidence_url="HIRA brdBltNo=11770"),
+          dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03",
+               n_th_attempt=1, evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여범위 확대의 적정성이 있음: 간세포암 1차)")])
 D(brand_kr="바벤시오", ingredient_inn="avelumab", manufacturer="한국머크",
   msd_flag=0, tracking_priority="competitor_class",
   amjilsim_pass_date="2026-04-15", negotiation_status="IN_PROGRESS",
@@ -690,12 +707,14 @@ D(brand_kr="옥타이로캡슐", ingredient_inn="repotrectinib", manufacturer="�
                n_th_attempt=1, evidence_url="HIRA brdBltNo=11684 (9차 암질심 ROS1 설정)")])
 D(brand_kr="텍베일리주", ingredient_inn="teclistamab", manufacturer="한국얀센",
   msd_flag=0, tracking_priority="competitor_class",
-  amjilsim_pass_date="2025-10-29", yakpyungwi_pass_date=None, negotiation_status=None,
+  amjilsim_pass_date="2025-10-29", yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
   indication="3차 이상 치료받은 재발/불응성 다발골수종 성인 단독요법",
   listing_type="신규",
-  notes="8차 암질심(2025-10-29 brdBltNo=11643) 급여기준 설정. 약평위 진입 대기.",
+  notes="8차 암질심(2025-10-29 brdBltNo=11643) 급여기준 설정. 9차 약평위(2026-09-03 HIRA brdBltNo=11898) 결정신청 약제 — 급여의 적정성이 있음.",
   events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2025-10-29",
-               n_th_attempt=1, evidence_url="HIRA brdBltNo=11643 (8차 암질심)")])
+               n_th_attempt=1, evidence_url="HIRA brdBltNo=11643 (8차 암질심)"),
+          dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03",
+               n_th_attempt=1, evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여의 적정성이 있음)")])
 D(brand_kr="엘렉스피오주", ingredient_inn="elranatamab", manufacturer="한국화이자제약",
   msd_flag=0, tracking_priority="competitor_class",
   amjilsim_pass_date="2025-10-29", yakpyungwi_pass_date=None, negotiation_status=None,
@@ -760,17 +779,20 @@ D(brand_kr="지텍정 75mg", ingredient_inn="건조계피추출물", manufacture
 # amjilsim_pass_date null, 큐 이벤트 {AMJILSIM, REJECTED_REQUEUE, 차수} → cancer 단계.
 D(brand_kr="림카토주", ingredient_inn="anbalcabtagene autoleucel",
   manufacturer="큐로셀", msd_flag=0, tracking_priority="competitor_class",
-  amjilsim_pass_date="2026-07-08", negotiation_status="IN_PROGRESS",
+  amjilsim_pass_date="2026-07-08", yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
   indication="두 가지 이상의 전신 치료 후 재발성 또는 불응성 미만성 거대 B세포 림프종(DLBCL) 및 원발성 종격동 거대 B세포 림프종(PMBCL) 성인 환자의 치료",
   listing_type="신규",
   notes="암질심 5차(2026-05-27 HIRA brdBltNo=11808) 미설정 후 6차(2026-07-08 HIRA brdBltNo=11847) 급여기준 설정. "
-        "국산 1호 CAR-T 재상정 통과.",
+        "국산 1호 CAR-T 재상정 통과. 9차 약평위(2026-09-03 HIRA brdBltNo=11898) 결정신청 약제 — 평가금액 이하 수용 시 급여의 적정성이 있음.",
   events=[dict(committee="AMJILSIM", state="REJECTED_REQUEUE",
                session_date="2026-05-27", n_th_attempt=1,
                evidence_url="HIRA brdBltNo=11808 (5차 암질심 미설정)"),
           dict(committee="AMJILSIM", state="APPROVED",
                session_date="2026-07-08", n_th_attempt=2,
-               evidence_url="HIRA brdBltNo=11847 (6차 암질심 급여기준 설정)")])
+               evidence_url="HIRA brdBltNo=11847 (6차 암질심 급여기준 설정)"),
+          dict(committee="YAKPYUNGWI", state="APPROVED",
+               session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 평가금액 이하 수용 시 급여의 적정성이 있음)")])
 D(brand_kr="덱사메타손+시클로포스파미드+에토포시드+시스플라틴(DCEP)",
   ingredient_inn="dexamethasone+cyclophosphamide+etoposide+cisplatin",
   manufacturer="-", msd_flag=0, tracking_priority="competitor_class",
@@ -901,6 +923,56 @@ D(brand_kr="브루킨사캡슐", ingredient_inn="zanubrutinib", manufacturer="�
   notes="7차 암질심(2026-08-19 HIRA brdBltNo=11882) 급여기준 설정.",
   events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2026-08-19", n_th_attempt=1,
                evidence_url="HIRA brdBltNo=11882 (7차 암질심 급여기준 설정)")])
+
+# 9차 약평위 2026-09-03 (HIRA brdBltNo=11898) — 공식 보도자료 직접 전사
+D(brand_kr="비브가트주", ingredient_inn="efgartigimod alfa", manufacturer="(주)한독",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
+  indication="항아세틸콜린 수용체 항체 양성인 전신 중증 근무력증 성인 환자의 치료 시의 표준 요법에 부가요법",
+  listing_type="신규",
+  notes="9차 약평위(2026-09-03 HIRA brdBltNo=11898) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여의 적정성이 있음)")])
+D(brand_kr="질브리스큐프리필드시린지주 16.6, 23.0, 32.4밀리그램", ingredient_inn="zilucoplan sodium", manufacturer="한국유씨비제약(주)",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
+  indication="성인에서 항아세틸콜린 수용체 항체 양성인 전신 중증근무력증 치료를 위한 표준 요법에 부가요법",
+  listing_type="신규",
+  notes="9차 약평위(2026-09-03 HIRA brdBltNo=11898) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여의 적정성이 있음)")])
+D(brand_kr="앤줍고크림", ingredient_inn="delgocitinib", manufacturer="레오파마(유)",
+  msd_flag=0, tracking_priority="generic_new_drug",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
+  indication="국소 스테로이드 치료에 반응하지 않거나 국소 스테로이드 치료가 적절하지 않은 성인의 중등도에서 중증 만성 손 습진",
+  listing_type="신규",
+  notes="9차 약평위(2026-09-03 HIRA brdBltNo=11898) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여의 적정성이 있음)")])
+D(brand_kr="프루자클라캡슐 1,5밀리그램", ingredient_inn="fruquintinib", manufacturer="한국다케다제약(주)",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
+  indication="이전에 플루오로피리미딘, 옥살리플라틴, 이리노테칸을 기본으로 하는 항암화학요법과 항-VEGF 치료제, 항-EGFR 치료제(RAS 정상형(wild type)의 경우)로 치료받은 적이 있는 전이성 결장직장암",
+  listing_type="신규",
+  notes="9차 약평위(2026-09-03 HIRA brdBltNo=11898) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여의 적정성이 있음)")])
+D(brand_kr="옵디보주", ingredient_inn="nivolumab", manufacturer="한국오노약품공업(주)",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date=None, yakpyungwi_pass_date="2026-09-03", negotiation_status="IN_PROGRESS",
+  indication="PD-L1 발현 양성(≥1%)으로서, 절제 불가능한 진행성 또는 전이성 식도 편평세포암(ESCC)의 1차 치료로서 플루오로피리미딘계 및 백금 기반 화학요법과의 병용요법",
+  listing_type="확대",
+  notes="9차 약평위(2026-09-03 HIRA brdBltNo=11898) 위험분담계약 약제 사용범위 확대 — 급여범위 확대의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여범위 확대의 적정성이 있음: ESCC 1차)")])
+D(brand_kr="옵디보주 + 여보이주 (악성 흉막중피종)", ingredient_inn="nivolumab+ipilimumab", manufacturer="한국오노약품공업(주)/(유)한국비엠에스제약",
+  msd_flag=0, tracking_priority="competitor_class",
+  amjilsim_pass_date=None, yakpyungwi_pass_date=None, negotiation_status=None,
+  indication="수술이 불가능한 악성 흉막중피종 환자에서 1차 치료로서 이필리무맙과의 병용요법",
+  listing_type="확대",
+  notes="9차 약평위(2026-09-03 HIRA brdBltNo=11898) 위험분담계약 약제 사용범위 확대 — 급여범위 확대의 적정성이 없음.",
+  events=[dict(committee="YAKPYUNGWI", state="REJECTED_REQUEUE", session_date="2026-09-03", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11898 (9차 약평위 급여범위 확대의 적정성이 없음: 악성 흉막중피종 1차)")])
 
 
 # ──────────────────────────────────────────────────────────────────────────────
