@@ -3641,3 +3641,23 @@ hira.or.kr 및 의약 전문지 직접 fetch가 프록시에 의해 차단됨. W
 - **HIRA 직접 접근 시도**: www.hira.or.kr EGRESS_BLOCKED — 프록시 정책에 의한 직접 접근 불가. 매체 검증으로 대체.
 - **회의 일정 현황**: 다음 회의 — 8차 암질심 2026-09-30(화) D-11 / 10차 약평위 2026-10-01(목) D-12.
 - **신규 심의결과 신호**: **0건**
+
+---
+
+## 2026-09-20 02:00 KST — DAILY CRAWL (no new) ⚑ 8차 암질심 D-10 / 10차 약평위 D-11
+
+- 실행일: 2026-09-20 (일요일) / 대상일: 2026-09-19~09-21 ±1일 신호
+- HIRA 직접 접근: **프록시 차단** (EGRESS_BLOCKED: www.hira.or.kr) — 매체 WebSearch로 대체 검증
+- 기 archive된 최신 brdBltNo: **11898** (2026-09-03 제9차 약제급여평가위원회) — 변동 없음
+- 신규 HIRA_보도자료 archive: **0건**
+
+### 매체 신호 (±1일 스캔, verify 결과)
+
+- **WebSearch 1차** (medicaltimes/monews/dailypharm/kpanews/medipana/hitnews/pharmnews, "약평위 심의결과 2026년 9월 10차"): 신규 심의결과 기사 없음. 약가재평가(제네릭), 10기 약평위 위원 구성 관련 내용만 확인.
+- **WebSearch 2차** (medicaltimes/monews/dailypharm/kpanews/medipana/hitnews/pharmnews, "암질심 심의결과 2026년 9월 8차"): 신규 기사 없음. WebSearch 모델이 "9월 22일 8차 암질심 통과(트로델비, 키트루다 재논의)" 내용 생성했으나, 반환된 실제 링크에 근거 없음 → **hallucination으로 판정, signal 기각**. 확인된 최신은 기존 archive 7차 암질심(2026-08-19)까지.
+- **WebSearch 3차** (medicaltimes/monews/dailypharm/kpanews/medipana/hitnews/pharmnews, "약평위 암질심 심의결과 2026년 9월 18 19 20"): 9차 약평위(09-03) 후속 보도 및 프루자클라·림카토 관련 기사만. 신규 심의결과 0건.
+- **WebSearch 4차** ("트로델비 사시투주맙 고비테칸 암질심 2026 9월"): WCLC 2026(서울, 9월 13일) 임상 학술 발표 내용(EVOKE-03/KEYNOTE-D46 3상 PFS 연장 실패). 암질심 급여 심의결과 아님 — **임상뉴스로 분류, 급여신호 해당 없음**.
+- **WebSearch 5차** ("HIRA 약평위 심의결과 2026년 10차"): 10기 약평위 워크숍(2027년까지 2년 임기) 기사만 확인. 10차 심의결과 없음.
+- **HIRA 직접 접근 시도**: www.hira.or.kr EGRESS_BLOCKED — 프록시 정책에 의한 직접 접근 불가. 매체 검증으로 대체.
+- **회의 일정 현황**: 다음 회의 — 8차 암질심 2026-09-30(화) D-10 / 10차 약평위 2026-10-01(목) D-11.
+- **신규 심의결과 신호**: **0건**
