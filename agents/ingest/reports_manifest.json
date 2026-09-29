@@ -220,6 +220,28 @@
       "cycle": 8,
       "session_date": "2026-09-28",
       "title": "2026년 8차 중증(암)질환심의위원회 사전 검토 보고"
+    },
+    {
+      "file_name": "2026-09-29_amjilsim-8_d_minus_1.pdf",
+      "file_hash": "e7e7cde34605c703c2a77de1f1fcd75ac9edb98a",
+      "url": "https://raw.githubusercontent.com/jeonpapa/AccessRoutineAnalystic/main/data/hira_pipeline/%EB%B3%B4%EA%B3%A0%EC%84%9C/D-2_%EC%82%AC%EC%A0%84_%EC%98%88%EC%B8%A1/2026-09-29_amjilsim-8_d_minus_1.pdf",
+      "committee": "cancer",
+      "report_type": "pre",
+      "year": 2026,
+      "cycle": 8,
+      "session_date": "2026-09-29",
+      "title": "2026년 8차 중증(암)질환심의위원회 사전 검토 보고"
+    },
+    {
+      "file_name": "2026-09-29_yakpyungwi-10_d_minus_2.pdf",
+      "file_hash": "5ccccf7ecd9e439239ec107491ebeb7a98206ed9",
+      "url": "https://raw.githubusercontent.com/jeonpapa/AccessRoutineAnalystic/main/data/hira_pipeline/%EB%B3%B4%EA%B3%A0%EC%84%9C/D-2_%EC%82%AC%EC%A0%84_%EC%98%88%EC%B8%A1/2026-09-29_yakpyungwi-10_d_minus_2.pdf",
+      "committee": "evaluation",
+      "report_type": "pre",
+      "year": 2026,
+      "cycle": 10,
+      "session_date": "2026-09-29",
+      "title": "2026년 10차 약제급여평가위원회 사전 검토 보고"
     }
   ]
 }
