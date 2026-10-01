@@ -3,6 +3,41 @@
 > **자동 갱신 주기**: 매 차수 D+1 09:00
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
+## 2026-10-01 12:00 KST — 8차 암질심 D+1 prediction learning
+
+- 전일 회의일: 2026-09-30 제8차 중증(암)질환심의위원회 → **활성 실행**.
+- 공식 확인: HIRA list/detail에서 `brdBltNo=11927` 직접 확인. 제목은 「2026년 제8차 중증(암)질환심의위원회 심의결과 공개」이며, 반플리타·민쥬비·셈블릭스·카빅티 및 설정/미설정 문구가 본문에 존재한다.
+- 결과 구조화: 반플리타 설정, 민쥬비 소포성 림프종 설정/DLBCL 미설정, 셈블릭스 CML 1차 확대 설정, 카빅티 미설정.
+
+### D-2/D-1 baseline 비교
+
+| 후보/단위 | baseline predicted_on_agenda | 실제 공식 결과 | 분류 | rule context |
+|---|---|---|---|---|
+| 셈블릭스 CML 1차 확대 | YES / HIGH | 실제 상정·급여기준 확대 설정 | TP | PR-NEW-AMJ-002 보조 신호 + body-verified 일정 신호 |
+| 반플리타 AML 1차 | UNKNOWN | 실제 상정·급여기준 설정 | FN(coverage) | 저노출 혈액암 product registry 보강 필요 |
+| 민쥬비 소포성 림프종 | UNKNOWN | 실제 상정·급여기준 설정 | FN(coverage) | 복수 regimen·혈액암 registry 보강 필요 |
+| 민쥬비 DLBCL | UNKNOWN | 실제 상정·급여기준 미설정 | FN(coverage) | 동일 제품의 적응증 split을 separate row로 관리 필요 |
+| 카빅티 다발골수종 | UNKNOWN | 실제 상정·급여기준 미설정 | FN(coverage) | CAR-T/BCMA product registry 보강 필요 |
+| 임델트라·키트루다·퍼제타·티루캡 | WATCH/LOW | 공식 결과표 미포함 | 보수적 제외 적중 | public-pressure·과거 미상정만으로 YES 승격하지 않음 |
+
+- TP: 1건. 명시적 YES 후보 기준 FP: 0건.
+- FN(coverage): 4개 결과 단위. 다만 baseline이 UNKNOWN이었던 품목은 명시적 YES miss와 구분하며, agenda 비공개 상황에서의 coverage gap으로 기록한다.
+- 관찰 후보의 보수적 제외는 FP를 만들지 않았다. 특히 반복 미상정·public-pressure만으로 HIGH 승격하지 않은 판단은 유지한다.
+
+### 보정 조치
+
+- PR-NEW-AMJ-004를 보강: D-30~D-7 product registry에 AML 신규 1차 표적치료, CML 1차 확대, 소포성 림프종·DLBCL split, CAR-T/BCMA를 별도 regimen row로 추가한다.
+- PR-NEW-AMJ-002는 유지하되, 기존 급여약제 확대 신호만으로 YES를 주지 않고 최근 body-verified 일정 또는 회사·공식 신청 신호를 추가 조건으로 둔다.
+- FN 대응으로 `PR-NEW-AMJ-010_저노출_혈액암_1차·세포치료_registry` 후보 룰을 신규 제안한다. 초기 weight는 0.55, confidence는 MEDIUM 이하로 시작하고, registry 등재만으로 YES 승격하지 않는다.
+- 다음 회차부터 baseline 표에 product-level이 아닌 `product × indication × line × regimen` 단위를 강제한다.
+
+### 정량 누적 메모
+
+- 이번 회차 명시적 YES precision: 1/1 = 1.00. 명시적 YES recall은 사전 YES 후보를 공식 결과 단위 전체와 비교하는 현재 스키마상 coverage 지표로 별도 관리한다.
+- 이번 회차의 핵심 학습은 예측 실패보다 **비공개 안건의 저노출 혈액암 coverage 부족**이다. leadership PDF에는 이 내부 학습 내용을 포함하지 않는다.
+
+---
+
 
 ## 2026-09-30 02:00 KST — DAILY CRAWL ★ 신규 1건 — 8차 암질심 D-DAY
 
