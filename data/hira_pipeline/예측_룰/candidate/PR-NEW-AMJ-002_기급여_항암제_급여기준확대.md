@@ -4,8 +4,11 @@
 |---|---|
 | status | CANDIDATE |
 | committee | AMJILSIM |
-| current_weight | 0.55 |
-| last_updated | 2026-07-09 |
+| current_weight | 0.57 |
+| evidence_count | 1 |
+| tp_count | 1 |
+| fp_count | 0 |
+| last_updated | 2026-10-01 |
 | seed_case | 퍼제타주 2026-07-08 6차 암질심 재논의 |
 
 ## 룰 가설
@@ -24,6 +27,7 @@
 | 회의 | 약제 | 실제 결과 | 분류 |
 |---|---|---|---|
 | 2026-07-08 6차 암질심 | 퍼제타주 | 조기 HER2 양성 유방암 수술 전 보조요법 확대 재논의 | FN seed |
+| 2026-09-30 8차 암질심 | 셈블릭스 (애시미닙) | CML 2차→1차 치료 급여기준 확대 설정 | TP (D-2 High 예측 → 설정 확인) |
 
 ## 적용 주의
 
