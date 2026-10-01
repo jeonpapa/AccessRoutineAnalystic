@@ -120,6 +120,14 @@
       "2026-09-03",
       "YAKPYUNGWI",
       "HIRA brdBltNo=11898 — 9차 약평위 (비브가트·질브리스큐·텍베일리·앤줍고·프루자클라 적정, 림카토 조건부, 옵디보 ESCC/HCC 확대 적정, 옵디보+여보이 악성 흉막중피종 확대 미적정)"
+    ],
+    [
+      2026,
+      8,
+      8,
+      "2026-09-30",
+      "AMJILSIM",
+      "HIRA brdBltNo=11927 — 8차 중증(암)질환심의위원회 (반플리타·민쥬비 소포성 림프종·셈블릭스 설정, 민쥬비 DLBCL·카빅티 미설정)"
     ]
   ],
   "session_status_updates": [
@@ -152,6 +160,11 @@
       "2026-09-03",
       "COMPLETED",
       "9차 약평위 — 결정신청 약제 비브가트주·질브리스큐프리필드시린지주·텍베일리주·앤줍고크림·프루자클라캡슐 급여의 적정성이 있음, 림카토주 평가금액 이하 수용 시 급여의 적정성이 있음; 위험분담계약 약제 사용범위 확대에서 옵디보주 ESCC 1차 및 옵디보주/여보이주 간세포암 1차는 급여범위 확대의 적정성이 있음, 옵디보주/여보이주 악성 흉막중피종 1차는 급여범위 확대의 적정성이 없음 (HIRA brdBltNo=11898)."
+    ],
+    [
+      "2026-09-30",
+      "COMPLETED",
+      "8차 암질심 — 반플리타 AML 신규 진단 성인 1차 치료 급여기준 설정, 민쥬비 소포성 림프종 급여기준 설정 및 DLBCL 급여기준 미설정, 셈블릭스 CML 1차 치료 급여기준 확대 설정, 카빅티 다발골수종 급여기준 미설정 (HIRA brdBltNo=11927)."
     ]
   ],
   "expected_next_session": {},
@@ -2062,6 +2075,101 @@
           "session_date": "2026-09-03",
           "n_th_attempt": 1,
           "evidence_url": "HIRA brdBltNo=11898 (9차 약평위 급여범위 확대의 적정성이 없음: 악성 흉막중피종 1차)"
+        }
+      ]
+    },
+    {
+      "brand_kr": "카빅티주",
+      "ingredient_inn": "ciltacabtagene autoleucel",
+      "manufacturer": "한국얀센",
+      "msd_flag": 0,
+      "tracking_priority": "competitor_class",
+      "amjilsim_pass_date": null,
+      "yakpyungwi_pass_date": null,
+      "negotiation_status": null,
+      "indication": "이전에 프로테아좀억제제 및 면역조절제제를 포함하여 1차 이상의 치료를 받은 경우로서 레날리도마이드에 불응한 재발 또는 불응성 다발골수종의 치료",
+      "listing_type": "신규",
+      "notes": "8차 암질심(2026-09-30 HIRA brdBltNo=11927) 급여기준 미설정.",
+      "events": [
+        {
+          "committee": "AMJILSIM",
+          "state": "REJECTED_REQUEUE",
+          "session_date": "2026-09-30",
+          "n_th_attempt": 1,
+          "evidence_url": "HIRA brdBltNo=11927 (8차 암질심 급여기준 미설정)"
+        }
+      ]
+    },
+    {
+      "brand_kr": "반플리타정",
+      "ingredient_inn": "quizartinib dihydrochloride",
+      "manufacturer": "한국다이이찌산쿄(주)",
+      "msd_flag": 0,
+      "tracking_priority": "competitor_class",
+      "amjilsim_pass_date": "2026-09-30",
+      "yakpyungwi_pass_date": null,
+      "negotiation_status": "IN_PROGRESS",
+      "indication": "FLT3-ITD 변이 양성인 새로 진단받은 급성 골수성 백혈병 성인 환자의 표준 시타라빈 및 안트라사이클린 유도요법과 표준 시타라빈 공고요법과의 병용 및 공고요법 후 단독 유지요법",
+      "listing_type": "신규",
+      "notes": "8차 암질심(2026-09-30 HIRA brdBltNo=11927) 급여기준 설정.",
+      "events": [
+        {
+          "committee": "AMJILSIM",
+          "state": "APPROVED",
+          "session_date": "2026-09-30",
+          "n_th_attempt": 1,
+          "evidence_url": "HIRA brdBltNo=11927 (8차 암질심 급여기준 설정)"
+        }
+      ]
+    },
+    {
+      "brand_kr": "민쥬비주",
+      "ingredient_inn": "tafasitamab",
+      "manufacturer": "한독",
+      "msd_flag": 0,
+      "tracking_priority": "competitor_class",
+      "amjilsim_pass_date": "2026-09-30",
+      "yakpyungwi_pass_date": null,
+      "negotiation_status": "IN_PROGRESS",
+      "indication": "한 가지 이상의 전신요법을 받은 재발성 또는 불응성 소포성 림프종(Grade 1-3a) 성인 환자에서 레날리도마이드 및 리툭시맙과 병용요법; 자가 조혈모세포이식(ASCT)이 적합하지 않고 한 가지 이상의 이전 치료에 실패한 재발성 또는 불응성 미만성 거대 B세포 림프종(DLBCL) 성인 환자에서 레날리도마이드와 병용요법 이후 단독요법",
+      "listing_type": "신규",
+      "notes": "8차 암질심(2026-09-30 HIRA brdBltNo=11927) split decision: 소포성 림프종은 급여기준 설정, DLBCL은 급여기준 미설정.",
+      "events": [
+        {
+          "committee": "AMJILSIM",
+          "state": "APPROVED",
+          "session_date": "2026-09-30",
+          "n_th_attempt": 1,
+          "evidence_url": "HIRA brdBltNo=11927 (8차 암질심 소포성 림프종 급여기준 설정)"
+        },
+        {
+          "committee": "AMJILSIM",
+          "state": "REJECTED_REQUEUE",
+          "session_date": "2026-09-30",
+          "n_th_attempt": 1,
+          "evidence_url": "HIRA brdBltNo=11927 (8차 암질심 DLBCL 급여기준 미설정)"
+        }
+      ]
+    },
+    {
+      "brand_kr": "셈블릭스정",
+      "ingredient_inn": "asciminib hydrochloride",
+      "manufacturer": "한국노바티스(주)",
+      "msd_flag": 0,
+      "tracking_priority": "competitor_class",
+      "amjilsim_pass_date": "2026-09-30",
+      "yakpyungwi_pass_date": null,
+      "negotiation_status": "IN_PROGRESS",
+      "indication": "새로 진단된 만성기의 필라델피아 염색체 양성 만성 골수성 백혈병(Ph+ CML) 성인 환자의 치료",
+      "listing_type": "확대",
+      "notes": "8차 암질심(2026-09-30 HIRA brdBltNo=11927) 급여기준 확대 설정.",
+      "events": [
+        {
+          "committee": "AMJILSIM",
+          "state": "APPROVED",
+          "session_date": "2026-09-30",
+          "n_th_attempt": 1,
+          "evidence_url": "HIRA brdBltNo=11927 (8차 암질심 급여기준 확대 설정)"
         }
       ]
     }
