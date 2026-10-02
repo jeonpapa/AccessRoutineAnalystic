@@ -3,12 +3,12 @@ rule_id: PR-NEW-BISPECIFIC-001
 name: "T세포 재지정 이중항체(bispecific) 혈액암 3L+ 단독 급여 상정 패턴"
 category: 안건_예측 + 통과_예측
 status: CANDIDATE
-weight: 0.50
-evidence_count: 0
-tp_count: 0
+weight: 0.52
+evidence_count: 1
+tp_count: 1
 fp_count: 0
 established_at: 2026-09-04
-last_updated: 2026-09-04
+last_updated: 2026-10-02
 condition: |
   다음 조건을 충족하는 T세포 재지정 이중항체(bispecific antibody)가 혈액암 후속치료에서 약평위 결정신청 안건에 상정.
   1. 기전: CD3(T세포 결합) × 종양 항원(BCMA, CD20, FcRH5 등) 이중 표적 bispecific

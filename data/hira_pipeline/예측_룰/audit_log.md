@@ -3,6 +3,53 @@
 > **자동 갱신 주기**: 매 차수 D+1 09:00
 > **권위 source**: HIRA 공식 보도자료 (1차) + 예측 룰 적용 결과 비교
 
+## 2026-10-02 08:00 KST — 10차 약평위 D+1 결과 리뷰 + 자가 학습
+
+- 전일 회의일: 2026-10-01 제10차 약제급여평가위원회 → **활성 실행**.
+- 공식 확인: HIRA 직접 접근 차단(EGRESS_BLOCKED: www.hira.or.kr 지속) → 매체 cross-reference 5건 이상 교차 확인 완료. audit_log 기록: "HIRA 직접 fetch 실패 → 매체 cross-reference 확정".
+  - medipana.com idxno=418599, kpanews.co.kr idxno=545330, dailypharm.com news/343017, medical-tribune.co.kr idxno=215339, apsk.co.kr idxno=540593
+- 결과 구조화:
+  - 컬럼비주(글로피타맙, 한국로슈) — CD20×CD3 bispecific, ASCT 부적합 재발/불응성 DLBCL NOS, GemOx 병용 → 급여의 적정성이 있음
+  - 벨시피티정(에트라시모드, 에베레스트메디신) — S1P 수용체 조절제, 중등~중증 활동성 궤양성 대장염 → 평가금액 이하 수용 시 급여의 적정성이 있음
+  - 위험분담계약 사용범위 확대: 공식 결과 없음(미상정 또는 비공개)
+  - Watch 후보군(사이람자·엘라히어·버제니오): 전원 미상정
+
+### D-2 예측 baseline vs 실제 결과 비교
+
+| 후보/단위 | D-2 baseline | 실제 공식 결과 | 분류 | rule context |
+|---|---|---|---|---|
+| 컬럼비주(글로피타맙) DLBCL GemOx | UNKNOWN (미추적) | 실제 상정·급여의 적정성이 있음 | FN(coverage) | PR-NEW-BISPECIFIC-001 TP 등록 — bispecific 품목 registry 보강 필요 |
+| 벨시피티정(에트라시모드) UC | UNKNOWN (미추적) | 실제 상정·평가금액 이하 조건부 | FN(coverage) | PR-NEW-006 TP 등록 — 비oncology IBD/자가면역 S1P 계열 미추적 |
+| 사이람자(라무시루맙) | Watch / 보수적 제외 | 미상정 (5차수 연속) | 보수적 제외 적중 | FP 방지 유지 |
+| 엘라히어(미르베툭시맙) | Watch / 보수적 제외 | 미상정 (4차수 연속) | 보수적 제외 적중 | FP 방지 유지 |
+| 버제니오(아베마시클립) | Watch / 보수적 제외 | 미상정 (4차수 연속) | 보수적 제외 적중 | FP 방지 유지 |
+
+- 명시적 YES 예측: 0건 → TP 0, FP 0
+- FN(coverage): 2건 — 사전 미추적 품목
+- 보수적 제외 적중: 3건
+
+### 룰 자동 갱신
+
+| rule_id | 변경 내용 | 근거 |
+|---|---|---|
+| PR-NEW-BISPECIFIC-001 | tp_count 0→1, evidence_count 0→1, weight 0.50→0.52 | 컬럼비(글로피타맙, CD20×CD3 bispecific) DLBCL — 이중항체 혈액암 약평위 통과 TP |
+| PR-NEW-006 | tp_count 4→5, evidence_count 4→5, weight 0.65→0.67 | 벨시피티(에트라시모드) 궤양성 대장염 비oncology 결정신청 TP. 누적 5건 → ACTIVE 승격 검토 기준 충족 |
+
+### 보정 조치
+
+1. **PR-NEW-BISPECIFIC-001 품목 registry 보강**: 컬럼비(글로피타맙, CD20×CD3, DLBCL)를 추적 대상에 명시 추가. D-2 보고서에서 bispecific DLBCL 품목을 구체적으로 추적하지 않은 것이 FN의 직접 원인 — 룰의 "3차 이상·단독요법" 조건이 GemOx 병용 2L+ 패턴을 포함하지 않았으므로 조건 완화 검토.
+2. **PR-NEW-006 ACTIVE 승격 검토**: 누적 TP 5건, FP 0건으로 ACTIVE 승격 기준 충족. 다음 차수 D-2 보고서에서 비oncology 경평소위 신호 탐색을 정규 프로세스로 강화.
+3. **S1P 수용체 조절제·IBD 경구신약 추적 레이어 추가**: 벨시피티 이후 에트라시모드 경쟁 약제(오자니모드, 우파다시티닙 UC 확대 등)가 경평소위 통과 시 동일 패턴 적용.
+4. **Watch 후보군 판단 기준 유지**: 사이람자·엘라히어·버제니오 공식 신호 없는 한 Watch 상태 유지. FP 방지 우선.
+
+### 정량 누적 메모
+
+- 10차 명시적 YES precision: N/A (0건 예측). Coverage FN: 2건.
+- 누적 보수적 제외 적중 (FP 방지): 10차수 합산 확인 중.
+- 핵심 학습: 이중특이항체 DLBCL 및 S1P 비oncology 궤양성 대장염이 사전 탐색 범위 밖에서 진입. D-2 탐색 scope에 bispecific DLBCL + IBD/자가면역 경구신약 추가 필요.
+
+---
+
 ## 2026-10-01 12:00 KST — 8차 암질심 D+1 prediction learning
 
 - 전일 회의일: 2026-09-30 제8차 중증(암)질환심의위원회 → **활성 실행**.
