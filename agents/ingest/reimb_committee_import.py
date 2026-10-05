@@ -53,6 +53,7 @@ MISSING_SESSIONS = [
     (2026, 7, 7, "2026-08-19", "AMJILSIM", "HIRA brdBltNo=11882 — 7차 암질심 (브렌랩주 일부 설정·일부 미설정, 보라니고정·브루킨사캡슐 설정, Docetaxel+Trastuzumab 미설정)"),
     (2026, 9, 9, "2026-09-03", "YAKPYUNGWI", "HIRA brdBltNo=11898 — 9차 약평위 (비브가트·질브리스큐·텍베일리·앤줍고·프루자클라 적정, 림카토 조건부, 옵디보 ESCC/HCC 확대 적정, 옵디보+여보이 악성 흉막중피종 확대 미적정)"),
     (2026, 8, 8, "2026-09-30", "AMJILSIM", "HIRA brdBltNo=11927 — 8차 중증(암)질환심의위원회 (반플리타·민쥬비 소포성 림프종·셈블릭스 설정, 민쥬비 DLBCL·카빅티 미설정)"),
+    (2026, 10, 10, "2026-10-01", "YAKPYUNGWI", "HIRA brdBltNo=11928 — 10차 약평위 (벨시피티 평가금액 이하 수용 시 적정, 컬럼비주 적정)"),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -112,6 +113,8 @@ SESSION_STATUS_UPDATES: list[tuple[str, str, str]] = [
      "옵디보주/여보이주 간세포암 1차는 급여범위 확대의 적정성이 있음, 옵디보주/여보이주 악성 흉막중피종 1차는 급여범위 확대의 적정성이 없음 (HIRA brdBltNo=11898)."),
     ("2026-09-30", "COMPLETED",
      "8차 암질심 — 반플리타 AML 신규 진단 성인 1차 치료 급여기준 설정, 민쥬비 소포성 림프종 급여기준 설정 및 DLBCL 급여기준 미설정, 셈블릭스 CML 1차 치료 급여기준 확대 설정, 카빅티 다발골수종 급여기준 미설정 (HIRA brdBltNo=11927)."),
+    ("2026-10-01", "COMPLETED",
+     "10차 약평위 — 벨시피티정 2밀리그램(에트라시모드)은 평가금액 이하 수용 시 급여의 적정성이 있음, 컬럼비주 2.5·10밀리그램(글로피타맙)은 급여의 적정성이 있음 (HIRA brdBltNo=11928)."),
 ]
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -175,6 +178,12 @@ KEY_ISSUES: dict[str, list[str]] = {
     ],
     "옵디보 + 여보이": [
         "9차 약평위에서 간세포암 1차 이필리무맙 병용요법은 급여범위 확대 적정, 악성 흉막중피종 1차 병용요법은 미적정 — 동일 조합 내 적응증별 split decision (HIRA brdBltNo=11898)",
+    ],
+    "벨시피티정 2밀리그램": [
+        "10차 약평위에서 중등증~중증 활동성 궤양성 대장염 성인 치료의 급여 적정성 인정 — 평가금액 이하 수용 조건 (HIRA brdBltNo=11928)",
+    ],
+    "컬럼비주 2.5,10밀리그램": [
+        "10차 약평위에서 ASCT 부적합 재발·불응성 DLBCL 성인 환자 젬시타빈·옥살리플라틴 병용요법의 급여 적정성 인정 (HIRA brdBltNo=11928)",
     ],
 }
 
@@ -992,6 +1001,24 @@ D(brand_kr="셈블릭스정", ingredient_inn="asciminib hydrochloride", manufact
   msd_flag=0, tracking_priority="competitor_class", amjilsim_pass_date="2026-09-30", yakpyungwi_pass_date=None,
   negotiation_status="IN_PROGRESS", indication="새로 진단된 만성기의 필라델피아 염색체 양성 만성 골수성 백혈병(Ph+ CML) 성인 환자의 치료", listing_type="확대",
   notes="8차 암질심(2026-09-30 HIRA brdBltNo=11927) 급여기준 확대 설정.", events=[dict(committee="AMJILSIM", state="APPROVED", session_date="2026-09-30", n_th_attempt=1, evidence_url="HIRA brdBltNo=11927 (8차 암질심 급여기준 확대 설정)")])
+
+# 10차 약평위 2026-10-01 (HIRA brdBltNo=11928) — 공식 보도자료 직접 전사
+D(brand_kr="벨시피티정 2밀리그램", ingredient_inn="etrasimod", manufacturer="에베레스트메디신코리아(유)",
+  msd_flag=0, tracking_priority="competitor_class", amjilsim_pass_date=None,
+  yakpyungwi_pass_date="2026-10-01", negotiation_status="IN_PROGRESS",
+  indication="보편적인 치료제(코르티코스테로이드, 면역억제제 등의 치료) 또는 생물학적 제제에 적절히 반응하지 않거나, 반응이 소실되거나 또는 내약성이 없는 성인의 중등증에서 중증의 활동성 궤양성 대장염의 치료",
+  listing_type="신규",
+  notes="10차 약평위(2026-10-01 HIRA brdBltNo=11928) 결정신청 약제 — 평가금액 이하 수용 시 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-10-01", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11928 (10차 약평위 평가금액 이하 수용 시 급여의 적정성이 있음)")])
+D(brand_kr="컬럼비주 2.5,10밀리그램", ingredient_inn="glofitamab", manufacturer="한국로슈",
+  msd_flag=0, tracking_priority="competitor_class", amjilsim_pass_date=None,
+  yakpyungwi_pass_date="2026-10-01", negotiation_status="IN_PROGRESS",
+  indication="자가 조혈 모세포 이식(ASCT)이 적합하지 않은 재발성 또는 불응성 미만성 거대 B세포 림프종 NOS (DLBCL Not Otherwise Specified) 성인 환자에서 젬시타빈 및 옥살리플라틴과의 병용요법",
+  listing_type="신규",
+  notes="10차 약평위(2026-10-01 HIRA brdBltNo=11928) 결정신청 약제 — 급여의 적정성이 있음.",
+  events=[dict(committee="YAKPYUNGWI", state="APPROVED", session_date="2026-10-01", n_th_attempt=1,
+               evidence_url="HIRA brdBltNo=11928 (10차 약평위 급여의 적정성이 있음)")])
 
 
 # ──────────────────────────────────────────────────────────────────────────────
